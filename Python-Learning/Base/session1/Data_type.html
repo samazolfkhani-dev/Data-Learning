@@ -1,0 +1,1293 @@
+<style>
+    /* ===== GENERAL STYLES ===== /
+
+     {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: #f4f7fb;
+        color: #263445;
+        line-height: 1.8;
+        padding: 30px 15px;
+    }
+
+    main, header, footer {
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    main {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    /* ===== HEADER ===== /
+
+    header {
+        text-align: center;
+        padding: 40px 20px;
+        margin-bottom: 25px;
+        background: linear-gradient(135deg, #142d4e, #286090);
+        color: white;
+        border-radius: 16px;
+    }
+
+    header h1 {
+        font-size: 38px;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+    }
+
+    header h2 {
+        font-size: 20px;
+        font-weight: 400;
+        margin-bottom: 20px;
+    }
+
+    header p {
+        color: #dce8f5;
+        margin: 5px;
+    }
+
+    / ===== HEADINGS ===== /
+
+    h1 {
+        color: #163b65;
+        font-size: 28px;
+        margin: 35px 0 20px;
+    }
+
+    h2 {
+        color: #245b91;
+        font-size: 23px;
+        margin: 30px 0 15px;
+    }
+
+    h3 {
+        color: #3478ad;
+        font-size: 19px;
+        margin: 25px 0 12px;
+    }
+
+    h4 {
+        color: #456b8d;
+        font-size: 16px;
+        margin: 20px 0 10px;
+    }
+
+    / ===== TEXT ===== /
+
+    p {
+        margin: 12px 0;
+    }
+
+    ul, ol {
+        padding-left: 30px;
+        margin: 15px 0;
+    }
+
+    li {
+        margin: 7px 0;
+    }
+
+    strong {
+        color: #163b65;
+    }
+
+    / ===== SECTIONS ===== /
+
+    section {
+        margin-bottom: 35px;
+    }
+
+    hr {
+        border: none;
+        height: 1px;
+        background-color: #e1e8f0;
+        margin: 35px 0;
+    }
+
+    / ===== CODE BLOCKS ===== /
+
+    pre {
+        background-color: #172536;
+        color: #e6edf3;
+        padding: 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        margin: 18px 0;
+        border-left: 4px solid #45a1d8;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    code {
+        font-family: "Consolas", "Courier New", monospace;
+    }
+
+    p code, li code {
+        background-color: #eaf2fa;
+        color: #17558a;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+
+    / ===== TABLES ===== /
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 14px;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    th {
+        background-color: #214e78;
+        color: white;
+        padding: 13px;
+        text-align: left;
+    }
+
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #e5eaf0;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f1f6fb;
+    }
+
+    tr:hover {
+        background-color: #e5f1fc;
+        transition: 0.2s;
+    }
+
+    / ===== FOOTER ===== /
+
+    footer {
+        max-width: 1000px;
+        margin: 25px auto 0;
+        padding: 30px;
+        background-color: #e7f0f9;
+        border-radius: 12px;
+        border-left: 5px solid #3478ad;
+    }
+
+    footer h1 {
+        margin-top: 0;
+    }
+
+    / ===== RESPONSIVE DESIGN ===== */
+
+    @media (max-width: 768px) {
+
+        body {
+            padding: 12px 8px;
+        }
+
+        main {
+            padding: 20px 14px;
+        }
+
+        header {
+            padding: 30px 15px;
+        }
+
+        header h1 {
+            font-size: 29px;
+        }
+
+        header h2 {
+            font-size: 17px;
+        }
+
+        h1 {
+            font-size: 23px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        pre {
+            font-size: 12px;
+            padding: 14px;
+        }
+
+        footer {
+            padding: 20px;
+        }
+    }
+</style>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Core - Fundamentals Revision</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>PYTHON CORE</h1>
+        <h2>Data Types, Operators, Built-in Functions &amp; Methods</h2>
+        <p><strong>Level:</strong> Beginner to Intermediate</p>
+        <p><strong>Purpose:</strong> Python Fundamentals Revision</p>
+    </header>
+
+    <hr>
+
+    <main>
+
+        <section>
+            <h1>PART 1 — PYTHON DATA TYPES</h1>
+
+            <p>Python has several built-in data types. Each type is designed to store a specific kind of data.</p>
+
+            <h2>1. Numeric Types</h2>
+            <p>Python has three main numeric types:</p>
+
+            <h3>1.1 Integer (int)</h3>
+            <p>Stores whole numbers without decimal points.</p>
+
+            <pre><code>age = 20
+temperature = -5
+population = 1000000</code></pre>
+
+            <p>Useful functions:</p>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>int()</td><td>Converts a value to integer</td><td>int("25") → 25</td></tr>
+                    <tr><td>abs()</td><td>Returns absolute value</td><td>abs(-10) → 10</td></tr>
+                    <tr><td>pow()</td><td>Calculates power</td><td>pow(2, 3) → 8</td></tr>
+                    <tr><td>round()</td><td>Rounds a number</td><td>round(3.7) → 4</td></tr>
+                </tbody>
+            </table>
+
+            <h3>1.2 Float (float)</h3>
+            <p>Stores numbers with decimal points.</p>
+
+            <pre><code>price = 19.99
+height = 1.75</code></pre>
+
+            <p>Useful functions:</p>
+
+            <pre><code>float("12.5")      # 12.5
+round(3.14159, 2)  # 3.14
+abs(-4.5)          # 4.5</code></pre>
+
+            <h3>1.3 Complex (complex)</h3>
+            <p>Stores complex numbers with real and imaginary parts.</p>
+
+            <pre><code>x = 3 + 4j
+
+print(x.real)  # 3.0
+print(x.imag)  # 4.0</code></pre>
+
+            <p>Useful function:</p>
+
+            <pre><code>complex(2, 3)  # (2+3j)</code></pre>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>2. String (str)</h2>
+
+            <p>A string is a sequence of characters.</p>
+            <p>Strings are immutable, which means you cannot directly change their individual characters.</p>
+
+            <pre><code>name = "Python"
+message = 'Hello World'</code></pre>
+
+            <h3>Important String Methods</h3>
+
+            <h4>A. Changing Letter Cases</h4>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Method</th><th>Description</th><th>Example</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>upper()</td><td>Converts to uppercase</td><td>"hello".upper()</td></tr>
+                    <tr><td>lower()</td><td>Converts to lowercase</td><td>"HELLO".lower()</td></tr>
+                    <tr><td>capitalize()</td><td>Capitalizes first character</td><td>"python".capitalize()</td></tr>
+                    <tr><td>title()</td><td>Capitalizes each word</td><td>"hello world".title()</td></tr>
+                    <tr><td>swapcase()</td><td>Reverses letter cases</td><td>"PyThOn".swapcase()</td></tr>
+                    <tr><td>casefold()</td><td>Strong lowercase conversion for comparisons</td><td>"HELLO".casefold()</td></tr>
+                </tbody>
+            </table>
+
+            <h4>B. Searching and Checking</h4>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Method</th><th>Description</th><th>Example</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>find()</td><td>Returns first position of a substring, or -1</td><td>"hello".find("l")</td></tr>
+                    <tr><td>index()</td><td>Returns position; raises ValueError if mi
+
+ssing</td><td>"hello".index("e")</td></tr>
+                    <tr><td>count()</td><td>Counts occurrences</td><td>"banana".count("a")</td></tr>
+                    <tr><td>startswith()</td><td>Checks beginning</td><td>"python".startswith("py")</td></tr>
+                    <tr><td>endswith()</td><td>Checks ending</td><td>"file.txt".endswith(".txt")</td></tr>
+                    <tr><td>isalpha()</td><td>Checks whether all characters are letters</td><td>"Hello".isalpha()</td></tr>
+                    <tr><td>isdigit()</td><td>Checks whether all characters are digits</td><td>"123".isdigit()</td></tr>
+                    <tr><td>isalnum()</td><td>Checks letters and digits only</td><td>"abc123".isalnum()</td></tr>
+                    <tr><td>isspace()</td><td>Checks whitespace characters</td><td>" ".isspace()</td></tr>
+                </tbody>
+            </table>
+
+            <h4>C. Modifying Strings</h4>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Method</th><th>Description</th><th>Example</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>strip()</td><td>Removes whitespace from both ends</td><td>" hi ".strip()</td></tr>
+                    <tr><td>lstrip()</td><td>Removes whitespace from left</td><td>" hi".lstrip()</td></tr>
+                    <tr><td>rstrip()</td><td>Removes whitespace from right</td><td>"hi ".rstrip()</td></tr>
+                    <tr><td>replace()</td><td>Replaces a substring</td><td>"hello".replace("h", "y")</td></tr>
+                    <tr><td>split()</td><td>Splits a string into a list</td><td>"a,b,c".split(",")</td></tr>
+                    <tr><td>join()</td><td>Joins iterable strings</td><td>"-".join(["a", "b"])</td></tr>
+                    <tr><td>removeprefix()</td><td>Removes a prefix</td><td>"unhappy".removeprefix("un")</td></tr>
+                    <tr><td>removesuffix()</td><td>Removes a suffix</td><td>"file.txt".removesuffix(".txt")</td></tr>
+                </tbody>
+            </table>
+
+            <h4>Examples:</h4>
+
+            <pre><code>text = "  Hello Python  "
+
+print(text.strip())
+print(text.upper())
+print(text.replace("Python", "World"))
+
+words = "Python is powerful".split()
+print(words)
+
+result = "-".join(["Python", "Java", "C++"])
+print(result)</code></pre>
+
+            <p><strong>Output:</strong></p>
+
+            <pre><code>Hello Python
+HELLO PYTHON
+  Hello World
+
+['Python', 'is', 'powerful']
+Python-Java-C++</code></pre>
+
+            <h3>String Formatting</h3>
+            <p>Three common approaches:</p>
+
+            <h4>1. f-strings (Recommended)</h4>
+
+            <pre><code>name = "Sama"
+age = 20
+
+print(f"My name is {name} and I am {age}.")</code></pre>
+
+            <h4>2. format()</h4>
+
+            <pre><code>print("My name is {} and I am {}.".format(name, age))</code></pre>
+
+            <h4>3. % formatting</h4>
+
+            <pre><code>print("My name is %s and I am %d." % (name, age))</code></pre>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>3. Boolean (bool)</h2>
+
+            <p>Boolean values represent logical states.</p>
+            <p>There are only two Boolean values:</p>
+
+            <pre><code>True
+False</code></pre>
+
+            <p>Examples:</p>
+
+            <pre><code>is_student = True
+is_adult = False
+
+print(10 > 5)   # True
+print(10 == 5)  # False</code></pre>
+
+            <p>Useful functions:</p>
+
+            <pre><code>bool(1)        # True
+bool(0)        # False
+bool("")       # False
+bool("Hello")  # True</code></pre>
+
+            <h3>Important Concept: Truthy and Falsy Values</h3>
+
+            <p>Falsy values include:</p>
+
+            <ul>
+                <li>False</li>
+                <li>None</li>
+                <li>0</li>
+                <li>0.0</li>
+                <li>""</li>
+                <li>[]</li>
+                <li>{}</li>
+                <li>set()</li>
+                <li>()</li>
+            </ul>
+
+            <p>Most other values are truthy.</p>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>4. List (list)</h2>
+
+<p>A list stores multiple values in an ordered and mutable collection.</p>
+            <p>Lists allow duplicate values and different data types.</p>
+
+            <pre><code>numbers = [10, 20, 30, 40]
+mixed = [10, "Python", True, 3.5]</code></pre>
+
+            <h3>Accessing Elements</h3>
+
+            <pre><code>numbers = [10, 20, 30, 40]
+
+numbers[0]    # 10
+numbers[-1]   # 40
+numbers[1:3]  # [20, 30]
+numbers[:2]   # [10, 20]
+numbers[2:]   # [30, 40]</code></pre>
+
+            <h3>Important List Methods</h3>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Method</th><th>Description</th><th>Example</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>append()</td><td>Adds one element to the end</td><td>a.append(5)</td></tr>
+                    <tr><td>extend()</td><td>Adds multiple elements</td><td>a.extend([5, 6])</td></tr>
+                    <tr><td>insert()</td><td>Inserts an element at an index</td><td>a.insert(0, 5)</td></tr>
+                    <tr><td>remove()</td><td>Removes first matching value</td><td>a.remove(10)</td></tr>
+                    <tr><td>pop()</td><td>Removes and returns an element</td><td>a.pop()</td></tr>
+                    <tr><td>clear()</td><td>Removes all elements</td><td>a.clear()</td></tr>
+                    <tr><td>index()</td><td>Returns element position</td><td>a.index(20)</td></tr>
+                    <tr><td>count()</td><td>Counts occurrences</td><td>a.count(10)</td></tr>
+                    <tr><td>sort()</td><td>Sorts the original list</td><td>a.sort()</td></tr>
+                    <tr><td>reverse()</td><td>Reverses the original list</td><td>a.reverse()</td></tr>
+                    <tr><td>copy()</td><td>Creates a shallow copy</td><td>b = a.copy()</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Examples:</h3>
+
+            <pre><code>numbers = [3, 1, 4]
+
+numbers.append(5)
+numbers.insert(1, 10)
+numbers.remove(4)
+
+numbers.sort()
+
+print(numbers)</code></pre>
+
+            <h3>Important Built-in Functions for Lists</h3>
+
+            <pre><code>numbers = [10, 20, 30, 40]
+
+len(numbers)       # 4
+max(numbers)       # 40
+min(numbers)       # 10
+sum(numbers)       # 100
+sorted(numbers)    # [10, 20, 30, 40]
+any(numbers)       # True
+all(numbers)       # True</code></pre>
+
+            <h3>Important Difference</h3>
+
+            <pre><code>numbers.sort()</code></pre>
+
+            <p>Changes the original list.</p>
+
+            <pre><code>sorted(numbers)</code></pre>
+
+            <p>Returns a new sorted list without modifying the original.</p>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>5. Tuple (tuple)</h2>
+
+            <p>A tuple is an ordered and immutable collection.</p>
+            <p>Unlike lists, tuples cannot be modified after creation.</p>
+
+            <pre><code>coordinates = (10, 20)
+colors = ("red", "green", "blue")</code></pre>
+
+            <h3>Accessing Elements</h3>
+
+            <pre><code>colors[0]    # red
+colors[-1]   # blue
+colors[0:2]  # ('red', 'green')</code></pre>
+
+            <h3>Tuple Methods</h3>
+
+            <p>Tuples have only two main methods:</p>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Method</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>count()</td><td>Counts occurrences</td></tr>
+                    <tr><td>index()</td><td>Returns the position of an element</td></tr>
+                </tbody>
+            </table>
+
+            <p>Example:</p>
+
+            <pre><code>numbers = (1, 2, 2, 3)
+
+numbers.count(2)  # 2
+numbers.index(3)  # 3</code></pre>
+
+            <h3>Important Concept: Tuple Packing and Unpacking</h3>
+
+            <pre><code>person = ("Sama", 20, "Computer Engineering")
+
+name, age, major = person
+
+print(name)
+print(age)
+print(major)</code></pre>
+
+            <p>A tuple with one element needs a comma:</p>
+
+            <pre><code>x = (10,)  # Tuple
+y = (10)   # Integer</code></pre>
+        </section>
+
+        <hr>
+
+        <section>
+
+<h2>6. Set (set)</h2>
+
+            <p>A set is an unordered collection of unique elements.</p>
+            <p>Sets do not allow duplicate values.</p>
+
+            <pre><code>numbers = {1, 2, 3, 3, 4}
+
+print(numbers)
+# {1, 2, 3, 4}</code></pre>
+
+            <p>Sets are mutable, but their elements must be hashable.</p>
+
+            <h3>Important Set Methods</h3>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Method</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>add()</td><td>Adds one element</td></tr>
+                    <tr><td>update()</td><td>Adds multiple elements</td></tr>
+                    <tr><td>remove()</td><td>Removes an element; raises KeyError if missing</td></tr>
+                    <tr><td>discard()</td><td>Removes an element without raising an error if missing</td></tr>
+                    <tr><td>pop()</td><td>Removes and returns an arbitrary element</td></tr>
+                    <tr><td>clear()</td><td>Removes all elements</td></tr>
+                    <tr><td>copy()</td><td>Creates a shallow copy</td></tr>
+                    <tr><td>union()</td><td>Combines two sets</td></tr>
+                    <tr><td>intersection()</td><td>Returns common elements</td></tr>
+                    <tr><td>difference()</td><td>Returns elements in the first set only</td></tr>
+                    <tr><td>symmetric_difference()</td><td>Returns elements that are not common</td></tr>
+                    <tr><td>issubset()</td><td>Checks whether a set is a subset</td></tr>
+                    <tr><td>issuperset()</td><td>Checks whether a set is a superset</td></tr>
+                    <tr><td>isdisjoint()</td><td>Checks whether two sets have no common elements</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Examples:</h3>
+
+            <pre><code>a = {1, 2, 3}
+b = {3, 4, 5}
+
+print(a.union(b))
+# {1, 2, 3, 4, 5}
+
+print(a.intersection(b))
+# {3}
+
+print(a.difference(b))
+# {1, 2}
+
+print(a.symmetric_difference(b))
+# {1, 2, 4, 5}</code></pre>
+
+            <h3>Set Operators</h3>
+
+            <pre><code>a | b  # Union
+a &amp; b  # Intersection
+a - b  # Difference
+a ^ b  # Symmetric difference</code></pre>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>7. Dictionary (dict)</h2>
+
+            <p>A dictionary stores data as key-value pairs.</p>
+            <p>Dictionaries are mutable and preserve insertion order.</p>
+
+            <pre><code>student = {
+    "name": "Sama",
+    "age": 20,
+    "major": "Computer Engineering"
+}</code></pre>
+
+            <h3>Accessing Values</h3>
+
+            <pre><code>student["name"]
+
+student.get("age")
+
+student.get("grade", 0)</code></pre>
+
+            <h3>Important Difference</h3>
+
+            <ul>
+                <li><code>student["grade"]</code> raises KeyError if the key does not exist.</li>
+                <li><code>student.get("grade")</code> returns None by default.</li>
+            </ul>
+
+            <h3>Important Dictionary Methods</h3>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Method</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>get()</td><td>Returns a value safely</td></tr>
+                    <tr><td>keys()</td><td>Returns all keys</td></tr>
+                    <tr><td>values()</td><td>Returns all values</td></tr>
+                    <tr><td>items()</td><td>Returns key-value pairs</td></tr>
+                    <tr><td>update()</td><td>Updates dictionary values</td></tr>
+                    <tr><td>pop()</td><td>Removes a key and returns its value</td></tr>
+                    <tr><td>popitem()</td><td>Removes the last inserted item</td></tr>
+                    <tr><td>setdefault()</td><td>Returns a value or inserts a default</td></tr>
+                    <tr><td>clear()</td><td>Removes all items</td></tr>
+                    <tr><td>copy()</td><td>Creates a shallow copy</td></tr>
+                    <tr><td>fromkeys()</td><td>Creates a dictionary fro
+
+m given keys</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Examples:</h3>
+
+            <pre><code>student = {
+    "name": "Sama",
+    "age": 20
+}
+
+student["grade"] = 18
+
+student.update({"age": 21})
+
+print(student.keys())
+print(student.values())
+print(student.items())</code></pre>
+
+            <h3>Dictionary Iteration</h3>
+
+            <pre><code>for key in student:
+    print(key)
+
+for value in student.values():
+    print(value)
+
+for key, value in student.items():
+    print(key, value)</code></pre>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>8. NoneType</h2>
+
+            <p><code>None</code> represents the absence of a value.</p>
+
+            <pre><code>result = None
+
+print(result is None)  # True</code></pre>
+
+            <h3>Important Points</h3>
+
+            <ul>
+                <li>None is not equal to zero.</li>
+                <li>None is not an empty string.</li>
+                <li>None is not False.</li>
+                <li>Use <code>is None</code> to check for None.</li>
+            </ul>
+
+            <p>Example:</p>
+
+            <pre><code>def get_user():
+    return None
+
+result = get_user()
+
+if result is None:
+    print("No user found")</code></pre>
+        </section>
+
+        <hr>
+
+        <section>
+            <h1>PART 2 — PYTHON OPERATORS</h1>
+
+            <p>Operators are symbols or keywords used to perform operations on values and variables.</p>
+
+            <h2>1. Arithmetic Operators</h2>
+
+            <p>Used for mathematical calculations.</p>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Operator</th><th>Name</th><th>Example</th><th>Result</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>+</td><td>Addition</td><td>10 + 5</td><td>15</td></tr>
+                    <tr><td>-</td><td>Subtraction</td><td>10 - 5</td><td>5</td></tr>
+                    <tr><td>*</td><td>Multiplication</td><td>10  5</td><td>50</td></tr>
+                    <tr><td>/</td><td>Division</td><td>10 / 3</td><td>3.333...</td></tr>
+                    <tr><td>//</td><td>Floor Division</td><td>10 // 3</td><td>3</td></tr>
+                    <tr><td>%</td><td>Modulus</td><td>10 % 3</td><td>1</td></tr>
+                    <tr><td></td><td>Exponentiation</td><td>2 * 3</td><td>8</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Important:</h3>
+
+            <pre><code>10 / 2   # 5.0
+10 // 3  # 3
+10 % 3   # 1</code></pre>
+
+            <p>The modulus operator returns the remainder.</p>
+
+            <h2>2. Comparison Operators</h2>
+
+            <p>Used to compare two values.</p>
+            <p>The result is always Boolean.</p>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Operator</th><th>Meaning</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>==</td><td>Equal to</td></tr>
+                    <tr><td>!=</td><td>Not equal to</td></tr>
+                    <tr><td>&gt;</td><td>Greater than</td></tr>
+                    <tr><td>&lt;</td><td>Less than</td></tr>
+                    <tr><td>&gt;=</td><td>Greater than or equal to</td></tr>
+                    <tr><td>&lt;=</td><td>Less than or equal to</td></tr>
+                </tbody>
+            </table>
+
+            <p>Examples:</p>
+
+            <pre><code>10 == 10  # True
+10 != 5   # True
+10 &gt; 5    # True
+10 &lt; 5    # False</code></pre>
+
+            <h3>Important:</h3>
+
+            <ul>
+                <li><code>=</code> is assignment.</li>
+                <li><code>==</code> is comparison.</li>
+            </ul>
+
+            <h2>3. Logical Operators</h2>
+
+            <p>Used to combine conditional expressions.</p>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Operator</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>and</td><td>True if both conditions are true</td></tr>
+                    <tr><td>or</td><td>True if at least one condition is true</td></tr>
+
+<tr><td>not</td><td>Reverses the Boolean result</td></tr>
+                </tbody>
+            </table>
+
+            <p>Examples:</p>
+
+            <pre><code>age = 20
+has_id = True
+
+print(age &gt;= 18 and has_id)
+# True
+
+print(age &lt; 18 or has_id)
+# True
+
+print(not has_id)
+# False</code></pre>
+
+            <h2>4. Assignment Operators</h2>
+
+            <p>Used to assign or update variable values.</p>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Operator</th><th>Example</th><th>Equivalent</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>=</td><td>x = 5</td><td>Assign 5</td></tr>
+                    <tr><td>+=</td><td>x += 2</td><td>x = x + 2</td></tr>
+                    <tr><td>-=</td><td>x -= 2</td><td>x = x - 2</td></tr>
+                    <tr><td>*=</td><td>x = 2</td><td>x = x  2</td></tr>
+                    <tr><td>/=</td><td>x /= 2</td><td>x = x / 2</td></tr>
+                    <tr><td>//=</td><td>x //= 2</td><td>x = x // 2</td></tr>
+                    <tr><td>%=</td><td>x %= 2</td><td>x = x % 2</td></tr>
+                    <tr><td>**=</td><td>x *= 2</td><td>x = x * 2</td></tr>
+                </tbody>
+            </table>
+
+            <p>Example:</p>
+
+            <pre><code>x = 10
+x += 5
+
+print(x)  # 15</code></pre>
+
+            <h2>5. Membership Operators</h2>
+
+            <p>Check whether a value exists inside a collection.</p>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Operator</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>in</td><td>Checks whether an element exists</td></tr>
+                    <tr><td>not in</td><td>Checks whether an element does not exist</td></tr>
+                </tbody>
+            </table>
+
+            <p>Examples:</p>
+
+            <pre><code>numbers = [1, 2, 3, 4]
+
+print(2 in numbers)       # True
+print(10 not in numbers)  # True</code></pre>
+
+            <p>For dictionaries, membership checks keys:</p>
+
+            <pre><code>student = {"name": "Sama", "age": 20}
+
+print("name" in student)  # True
+print("Sama" in student)  # False</code></pre>
+
+            <h2>6. Identity Operators</h2>
+
+            <p>Check whether two variables refer to the same object in memory.</p>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Operator</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>is</td><td>Same object</td></tr>
+                    <tr><td>is not</td><td>Different objects</td></tr>
+                </tbody>
+            </table>
+
+            <p>Example:</p>
+
+            <pre><code>a = [1, 2, 3]
+b = a
+c = [1, 2, 3]
+
+print(a == c)  # True
+print(a is c)  # False
+
+print(a is b)  # True</code></pre>
+
+            <h3>Important:</h3>
+
+            <ul>
+                <li><code>==</code> compares values.</li>
+                <li><code>is</code> compares object identity.</li>
+            </ul>
+
+            <p>Use <code>is</code> mainly for comparisons with <code>None</code>.</p>
+
+            <h2>7. Bitwise Operators</h2>
+
+            <p>These operators work directly with binary representations of integers.</p>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Operator</th><th>Name</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>&amp;</td><td>AND</td></tr>
+                    <tr><td>|</td><td>OR</td></tr>
+                    <tr><td>^</td><td>XOR</td></tr>
+                    <tr><td>~</td><td>NOT</td></tr>
+                    <tr><td>&lt;&lt;</td><td>Left Shift</td></tr>
+                    <tr><td>&gt;&gt;</td><td>Right Shift</td></tr>
+                </tbody>
+            </table>
+
+            <p>Examples:</p>
+
+            <pre><code>a = 5  # 0101
+b = 3  # 0011
+
+print(a &amp; b)   # 1
+print(a | b)   # 7
+print(a ^ b)   # 6
+print(a &lt;&lt; 1)  # 10
+print(a &gt;&gt; 1)  # 2</code></pre>
+
+            <p>Bitwise operators are particularly useful in low
+
+-level programming, operating systems, networking, and performance-related tasks.</p>
+        </section>
+
+        <hr>
+
+        <section>
+            <h1>PART 3 — IMPORTANT PYTHON BUILT-IN FUNCTIONS</h1>
+
+            <p>Built-in functions are available in Python without importing additional libraries.</p>
+
+            <table border="1">
+                <thead>
+                    <tr><th>Function</th><th>Description</th><th>Example</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>print()</td><td>Displays output</td><td>print("Hello")</td></tr>
+                    <tr><td>input()</td><td>Receives user input</td><td>input("Name: ")</td></tr>
+                    <tr><td>type()</td><td>Returns object's type</td><td>type(10)</td></tr>
+                    <tr><td>id()</td><td>Returns object's identity</td><td>id(x)</td></tr>
+                    <tr><td>len()</td><td>Returns collection length</td><td>len("Python")</td></tr>
+                    <tr><td>int()</td><td>Converts to integer</td><td>int("10")</td></tr>
+                    <tr><td>float()</td><td>Converts to float</td><td>float("2.5")</td></tr>
+                    <tr><td>str()</td><td>Converts to string</td><td>str(100)</td></tr>
+                    <tr><td>bool()</td><td>Converts to Boolean</td><td>bool(1)</td></tr>
+                    <tr><td>list()</td><td>Creates a list</td><td>list("abc")</td></tr>
+                    <tr><td>tuple()</td><td>Creates a tuple</td><td>tuple([1, 2])</td></tr>
+                    <tr><td>set()</td><td>Creates a set</td><td>set([1, 1, 2])</td></tr>
+                    <tr><td>dict()</td><td>Creates a dictionary</td><td>dict(a=1, b=2)</td></tr>
+                    <tr><td>range()</td><td>Generates a sequence of integers</td><td>range(5)</td></tr>
+                    <tr><td>sum()</td><td>Calculates the sum</td><td>sum([1, 2, 3])</td></tr>
+                    <tr><td>min()</td><td>Returns minimum value</td><td>min([1, 2, 3])</td></tr>
+                    <tr><td>max()</td><td>Returns maximum value</td><td>max([1, 2, 3])</td></tr>
+                    <tr><td>sorted()</td><td>Returns a sorted list</td><td>sorted([3, 1, 2])</td></tr>
+                    <tr><td>reversed()</td><td>Returns a reverse iterator</td><td>reversed([1, 2])</td></tr>
+                    <tr><td>enumerate()</td><td>Returns index-value pairs</td><td>enumerate(["a", "b"])</td></tr>
+                    <tr><td>zip()</td><td>Combines multiple iterables</td><td>zip([1, 2], ["a", "b"])</td></tr>
+                    <tr><td>map()</td><td>Applies a function to each item</td><td>map(str, [1, 2])</td></tr>
+                    <tr><td>filter()</td><td>Filters elements using a function</td><td>filter(bool, [0, 1, 2])</td></tr>
+                    <tr><td>abs()</td><td>Returns absolute value</td><td>abs(-10)</td></tr>
+                    <tr><td>round()</td><td>Rounds a number</td><td>round(3.1415, 2)</td></tr>
+                    <tr><td>pow()</td><td>Calculates power</td><td>pow(2, 3)</td></tr>
+                    <tr><td>all()</td><td>True if all elements are truthy</td><td>all([True, True])</td></tr>
+                    <tr><td>any()</td><td>True if at least one is truthy</td><td>any([False, True])</td></tr>
+                    <tr><td>isinstance()</td><td>Checks an object's type</td><td>isinstance(10, int)</td></tr>
+                    <tr><td>callable()</td><td>Checks whether an object is callable</td><td>callable(print)</td></tr>
+                    <tr><td>ord()</td><td>Returns Unicode code point</td><td>ord("A")</td></tr>
+                    <tr><td>chr()</td><td>Converts code point to character</td><td>chr(65)</td></tr>
+                    <tr><td>bin()</td><td>Converts integer to binary string</td><td>bin(10)</td></tr>
+                    <tr><td>hex()</td><td>Converts integer to hexadecimal string</td><td>hex(255)</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <hr>
+
+        <section>
+            <h1>PART 4 — IMPORTANT CONCEPTS</h1>
+
+            <h2>1. Mutable vs Immutable</h2>
+
+            <p>Th
+
+is is one of the most important concepts in Python.</p>
+
+            <h3>Mutable Objects</h3>
+
+            <p>Their contents can be changed after creation.</p>
+
+            <ul>
+                <li>list</li>
+                <li>dict</li>
+                <li>set</li>
+            </ul>
+
+            <p>Example:</p>
+
+            <pre><code>numbers = [1, 2, 3]
+
+numbers.append(4)
+
+print(numbers)
+# [1, 2, 3, 4]</code></pre>
+
+            <h3>Immutable Objects</h3>
+
+            <p>Their contents cannot be changed after creation.</p>
+
+            <ul>
+                <li>int</li>
+                <li>float</li>
+                <li>bool</li>
+                <li>str</li>
+                <li>tuple</li>
+                <li>frozenset</li>
+                <li>bytes</li>
+            </ul>
+
+            <p>Example:</p>
+
+            <pre><code>name = "Python"
+
+name.upper()
+
+print(name)
+# Python</code></pre>
+
+            <p>The <code>upper()</code> method returns a new string. It does not modify the original.</p>
+
+            <h2>2. Shallow Copy vs Reference</h2>
+
+            <p>Consider:</p>
+
+            <pre><code>a = [1, 2, 3]
+b = a
+
+b.append(4)
+
+print(a)
+# [1, 2, 3, 4]</code></pre>
+
+            <p>Both variables refer to the same list.</p>
+
+            <p>Now consider:</p>
+
+            <pre><code>a = [1, 2, 3]
+b = a.copy()
+
+b.append(4)
+
+print(a)
+# [1, 2, 3]
+
+print(b)
+# [1, 2, 3, 4]</code></pre>
+
+            <p>A shallow copy creates a new outer object, but nested mutable objects can still be shared.</p>
+
+            <p>For deeply nested structures, Python provides <code>copy.deepcopy()</code>.</p>
+
+            <h2>3. Type Conversion</h2>
+
+            <p>Python allows conversion between many data types.</p>
+
+            <pre><code>int("25")          # 25
+float("3.14")      # 3.14
+str(100)           # "100"
+list("Python")     # ['P', 'y', 't', 'h', 'o', 'n']
+tuple([1, 2, 3])   # (1, 2, 3)
+set([1, 1, 2])     # {1, 2}</code></pre>
+
+            <h3>Important:</h3>
+
+            <pre><code>int("hello")</code></pre>
+
+            <p>Raises a <code>ValueError</code>.</p>
+            <p>Not every value can be converted into every type.</p>
+        </section>
+
+        <hr>
+
+        <section>
+            <h1>PART 5 — QUICK REFERENCE</h1>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Data Type</th>
+                        <th>Ordered</th>
+                        <th>Mutable</th>
+                        <th>Allows Duplicates</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>int</td><td>N/A</td><td>No</td><td>N/A</td></tr>
+                    <tr><td>float</td><td>N/A</td><td>No</td><td>N/A</td></tr>
+                    <tr><td>bool</td><td>N/A</td><td>No</td><td>N/A</td></tr>
+                    <tr><td>str</td><td>Yes</td><td>No</td><td>Yes</td></tr>
+                    <tr><td>list</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>tuple</td><td>Yes</td><td>No</td><td>Yes</td></tr>
+                    <tr><td>set</td><td>No</td><td>Yes</td><td>No</td></tr>
+                    <tr><td>dict</td><td>Yes</td><td>Yes</td><td>Keys: No</td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Note:</strong> Dictionary keys must be unique and hashable. Dictionary values can contain duplicates.</p>
+        </section>
+
+        <hr>
+
+        <section>
+            <h1>PART 6 — PRACTICE CHALLENGES</h1>
+
+            <p>Try solving these without looking at the answers.</p>
+
+            <h2>Exercise 1 — Strings</h2>
+
+            <p>Given:</p>
+
+            <pre><code>text = "  Python Programming Language  "</code></pre>
+
+            <ol>
+                <li>Remove extra spaces.</li>
+                <li>Convert the text to lowercase.</li>
+                <li>Count the occurrences of the letter "a".</li>
+                <li>Replace "Python" with "Java".</li>
+                <li>Check whether the string ends with "Language".</li>
+            </ol>
+
+            <h2>Exercise 2 — Lists</h2>
+
+            <p>Give
+
+n:</p>
+
+            <pre><code>numbers = [10, 5, 20, 5, 30, 15]</code></pre>
+
+            <ol>
+                <li>Find the maximum and minimum values.</li>
+                <li>Calculate the sum.</li>
+                <li>Remove the first occurrence of 5.</li>
+                <li>Sort the list.</li>
+                <li>Find the index of 20.</li>
+                <li>Create a copy of the list.</li>
+            </ol>
+
+            <h2>Exercise 3 — Dictionaries</h2>
+
+            <p>Given:</p>
+
+            <pre><code>student = {
+    "name": "Ali",
+    "age": 22,
+    "grade": 18
+}</code></pre>
+
+            <ol>
+                <li>Add a new key called "major".</li>
+                <li>Update the age to 23.</li>
+                <li>Print all keys.</li>
+                <li>Print all values.</li>
+                <li>Check whether "grade" exists.</li>
+                <li>Remove the "age" key.</li>
+            </ol>
+
+            <h2>Exercise 4 — Sets</h2>
+
+            <p>Given:</p>
+
+            <pre><code>python_students = {"Ali", "Sara", "Reza"}
+java_students = {"Sara", "Mina", "Reza"}</code></pre>
+
+            <p>Find:</p>
+
+            <ol>
+                <li>Students who know both languages.</li>
+                <li>Students who know Python only.</li>
+                <li>All unique students.</li>
+                <li>Students who know exactly one of the two languages.</li>
+            </ol>
+
+            <h2>Exercise 5 — Operators</h2>
+
+            <p>Predict the output:</p>
+
+            <pre><code>a = 10
+b = 3
+
+print(a // b)
+print(a % b)
+print(a ** b)
+print(a &gt; b and b != 0)
+print(a in [5, 10, 15])</code></pre>
+        </section>
+
+        <hr>
+
+        <footer>
+            <h1>FINAL NOTE</h1>
+
+            <p>Do not memorize every method immediately.</p>
+
+            <p>Focus on understanding:</p>
+
+            <ol>
+                <li>What each data type stores.</li>
+                <li>Which data types are mutable and immutable.</li>
+                <li>The difference between methods and built-in functions.</li>
+                <li>How operators work.</li>
+                <li>How to manipulate strings, lists, dictionaries, and sets.</li>
+            </ol>
+
+            <p>The goal is to become comfortable writing Python code without constantly searching for basic syntax.</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>
