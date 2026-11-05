@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Core Notes — Strings, Conditions & Loops</title>
+<style>
+:root{
+  --bg:#f4f7fb;--paper:#ffffff;--ink:#243247;--muted:#64748b;
+  --blue:#2563eb;--blue-soft:#eaf1ff;--purple:#7c3aed;--purple-soft:#f2eaff;
+  --green:#16845b;--green-soft:#e8f7f0;--orange:#c56a12;--orange-soft:#fff3e3;
+  --red:#c2414b;--red-soft:#fff0f1;--border:#dce4ef;--code:#172033;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,Segoe UI,Arial,sans-serif}
+.wrapper{max-width:1050px;margin:32px auto;padding:0 20px 60px}
+.hero{background:linear-gradient(125deg,#172554,#2563eb 58%,#7c3aed);color:#fff;padding:42px;border-radius:22px;box-shadow:0 14px 35px #1e3a8a22}
+.hero .eyebrow{letter-spacing:2px;text-transform:uppercase;font-size:.78rem;font-weight:700;opacity:.8}
+h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin:12px 0}
+.hero p{max-width:760px;color:#e5edff;font-size:1.05rem}
+.badges{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+.badge{border:1px solid #ffffff55;background:#ffffff18;border-radius:999px;padding:5px 12px;font-size:.85rem}
+.toc,.card,.callout,.exercise{background:var(--paper);border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:22px}
+.toc h2,.card h2{margin-top:0}
+.toc ol{columns:2;padding-left:22px;margin-bottom:0}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+section{scroll-margin-top:20px}
+h2{font-size:1.65rem;color:#17336b;margin:0 0 14px}
+h3{font-size:1.15rem;margin:22px 0 8px;color:#334c75}
+p{margin:9px 0}
+.lead{font-size:1.05rem;color:#42536b}
+code{font-family:Consolas,Monaco,monospace;background:#edf2f8;padding:2px 6px;border-radius:5px;color:#9b2851}
+pre{background:var(--code);color:#e8eefc;padding:18px 20px;border-radius:12px;overflow-x:auto;line-height:1.55;font:14px/1.6 Consolas,Monaco,monospace}
+pre code{background:none;color:inherit;padding:0}
+.note{border-left:5px solid var(--blue);background:var(--blue-soft);padding:13px 16px;border-radius:8px;margin:16px 0}
+.good{border-left-color:var(--green);background:var(--green-soft)}
+.warn{border-left-color:var(--orange);background:var(--orange-soft)}
+.danger{border-left-color:var(--red);background:var(--red-soft)}
+.purple{border-left-color:var(--purple);background:var(--purple-soft)}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.95rem}
+th,td{padding:10px 12px;border:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:#edf3ff;color:#17336b}
+tr:nth-child(even) td{background:#fafcff}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.mini{border:1px solid var(--border);border-radius:12px;padding:15px;background:#fbfdff}
+.mini h3{margin:0 0 7px}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;border-radius:5px;padding:2px 7px;background:#e8edff;color:#3346a0}
+hr{border:0;border-top:1px solid var(--border);margin:28px 0}
+.footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:30px}
+@media(max-width:700px){.wrapper{padding:0 12px 40px}.hero{padding:27px 23px}.toc ol{columns:1}.grid{grid-template-columns:1fr}.card,.toc,.callout,.exercise{padding:18px}}
+@media print{body{background:white}.wrapper{max-width:none;margin:0}.hero{box-shadow:none;print-color-adjust:exact}.card,.toc,.exercise{break-inside:avoid}pre{white-space:pre-wrap}}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<header class="hero">
+  <div class="eyebrow">Python Fundamentals • Study Guide</div>  
+  <h1>Strings, Conditions<br>& Loops</h1>
+  <p>A practical, concept-first guide to Python f-strings, <code>str.format()</code>, conditional logic, and iteration. Learn the syntax, understand the mechanics, avoid common bugs, and practise writing clean code.</p>
+  <div class="badges"><span class="badge">Beginner → Intermediate</span><span class="badge">Examples included</span><span class="badge">Common mistakes</span><span class="badge">Practice tasks</span></div>
+</header>
+
+<nav class="toc">
+<h2>Contents</h2>
+<ol>
+<li><a href="#strings">String Formatting Overview</a></li>
+<li><a href="#fstrings">F-Strings</a></li>
+<li><a href="#format">The format() Method</a></li>
+<li><a href="#comparison">f-strings vs format()</a></li>
+<li><a href="#conditions">Conditional Statements</a></li>
+<li><a href="#logic">Logical Operators & Truthiness</a></li>
+<li><a href="#loops">Loops</a></li>
+<li><a href="#loop-control">break, continue, pass</a></li>
+<li><a href="#nested">Nested Loops</a></li>
+<li><a href="#patterns">Choosing the Right Tool</a></li>
+<li><a href="#mistakes">Common Mistakes</a></li>
+<li><a href="#practice">Practice Exercises</a></li>
+<li><a href="#cheatsheet">Quick Reference</a></li>
+</ol>
+</nav>
+
+<section class="card" id="strings">
+<h2>1. String Formatting: The Big Picture</h2>
+<p class="lead">String formatting means inserting values into text and controlling how those values appear.</p>
+<p>Suppose you have a user's name and score. You want to produce a readable sentence using both values.</p>
+<pre><code>name = "Sara"
+score = 92
+
+message = "Sara scored 92 points."</code></pre>
+<p>Hard-coding values is inflexible. String formatting lets Python insert variables into a string dynamically.</p>
+<pre><code>name = "Sara"
+score = 92
+
+message = f"{name} scored {score} points."
+print(message)</code></pre>
+<div class="note good"><strong>Key idea:</strong> f-strings and <code>str.format()</code> both build strings from text and values. They do not change the original variables.</div>
+</section>
+
+<section class="card" id="fstrings">
+<h2>2. F-Strings</h2>
+<p>An <strong>f-string</strong> is a string literal prefixed with <code>f</code> or <code>F</code>. Expressions inside curly braces <code>{ }</code> are evaluated and their results are inserted into the string.</p>
+<h3>2.1 Basic syntax</h3>
+<pre><code>name = "Alex"
+age = 21
+
+print(f"My name is {name} and I am {age} years old.")</code></pre>
+<p>Output:</p>
+<pre><code>My name is Alex and I am 21 years old.</code></pre>
+<h3>2.2 Expressions inside braces</h3>
+<p>You can place expressions—not just variable names—inside the braces.</p>
+<pre><code>a = 12
+b = 5
+
+print(f"Total: {a + b}")
+print(f"Product: {a * b}")
+print(f"Next year: {2026 + 1}")</code></pre>
+<div class="note warn"><strong>Remember:</strong> the expression is evaluated when the f-string is created. The resulting string is an ordinary string; it does not update later if a variable changes.</div>
+<h3>2.3 Calling functions and methods</h3>
+<pre><code>name = "  python  "
+
+print(f"Clean name: {name.strip()}")
+print(f"Uppercase: {name.upper()}")
+print(f"Length: {len(name)}")</code></pre>
+<h3>2.4 Formatting decimal numbers</h3>
+<p>Use a format specification after a colon: <code>{value:format_spec}</code>.</p>
+<table><tr><th>Format</th><th>Meaning</th><th>Example result</th></tr>
+<tr><td><code>{price:.2f}</code></td><td>Two digits after the decimal point</td><td>19.50</td></tr>
+<tr><td><code>{ratio:.1%}</code></td><td>Percentage with one decimal place</td><td>87.5%</td></tr>
+<tr><td><code>{number:,}</code></td><td>Thousands separator</td><td>1,250,000</td></tr>
+<tr><td><code>{value:08d}</code></td><td>Integer padded to width 8 with zeroes</td><td>00000042</td></tr>
+</table>
+<pre><code>price = 19.5
+ratio = 0.875
+population = 1250000
+code = 42
+
+print(f"Price: ${price:.2f}")
+print(f"Success rate: {ratio:.1%}")
+print(f"Population: {population:,}")
+print(f"Code: {code:08d}")</code></pre>
+<h3>2.5 Alignment and width</h3>
+<p>Width reserves a minimum number of character positions. Alignment controls where the value appears inside that space.</p>
+<table><tr><th>Specifier</th><th>Meaning</th></tr>
+<tr><td><code>{text:&lt;10}</code></td><td>Left-align in a width of 10</td></tr>
+<tr><td><code>{text:&gt;10}</code></td><td>Right-align in a width of 10</td></tr>
+<tr><td><code>{text:^10}</code></td><td>Center in a width of 10</td></tr>
+<tr><td><code>{number:*>8}</code></td><td>Right-align and fill with <code>*</code></td></tr></table>
+<pre><code>item = "Book"
+print(f"|{item:<10}|")
+print(f"|{item:>10}|")
+print(f"|{item:^10}|")
+print(f"{42:*>8}")</code></pre>
+<h3>2.6 Debugging with =</h3>
+<p>In modern Python, <code>{expression=}</code> prints the expression text and its value. It is handy while debugging.</p>
+<pre><code>total = 17 * 3
+print(f"{total=}")       # total=51
+print(f"{17 * 3=}")      # 17 * 3=51</code></pre>
+<h3>2.7 Literal curly braces</h3>
+<p>To display actual braces, double them: <code>{{</code> and <code>}}</code>.</p>
+<pre><code>name = "Mina"
+print(f"{{Hello, {name}}}")  # {Hello, Mina}</code></pre>
+<div class="note danger"><strong>Common trap:</strong> this is invalid: <code>f"Hello, {name"</code>. Every replacement field needs a matching closing brace.</div>
+</section>
+
+<section class="card" id="format">
+<h2>3. The str.format() Method</h2>
+<p><code>str.format()</code> is another way to insert values into a string. The string contains replacement fields, and <code>.format()</code> supplies their values.</p>
+<h3>3.1 Automatic positional fields</h3>
+<pre><code>name = "Alex"
+age = 21
+
+message = "My name is {} and I am {}.".format(name, age)
+print(message)</code></pre>
+<p>The first <code>{}</code> receives the first argument; the second receives the second argument.</p>
+<h3>3.2 Numbered positional fields</h3>
+<pre><code>message = "{1} is {0} years old.".format(21, "Alex")
+print(message)  # Alex is 21 years old.</code></pre>
+<p>Indexes start at zero. You can also reuse an index:</p>
+<pre><code>text = "{0}, {0}, and {1}".format("red", "blue")
+print(text)  # red, red, and blue</code></pre>
+<h3>3.3 Named fields</h3>
+<pre><code>message = "Name: {name}, Score: {score}".format(
+    name="Sara",
+    score=95
+)
+print(message)</code></pre>
+<h3>3.4 Format specifications also work here</h3>
+<pre><code>price = 19.5
+print("Price: ${:.2f}".format(price))
+
+name = "Python"
+print("|{:<12}|".format(name))
+print("|{:^12}|".format(name))</code></pre>
+<h3>3.5 Accessing attributes and items</h3>
+<pre><code>user = {"name": "Nina", "score": 88}
+
+print("Name: {0[name]}".format(user))
+print("Score: {0[score]}".format(user))</code></pre>
+<div class="note purple"><strong>When is format() useful?</strong> It is still common in older Python code, reusable templates, and situations where the template string is stored separately. For most new everyday Python code, f-strings are usually clearer.</div>
+</section>
+
+<section class="card" id="comparison">
+<h2>4. F-Strings vs format()</h2>
+<table><tr><th>Feature</th><th>f-string</th><th>str.format()</th></tr>
+<tr><td>Basic form</td><td><code>f"{name}"</code></td><td><code>"{}".format(name)</code></td></tr>
+<tr><td>Expressions</td><td>Directly inside braces</td><td>Usually calculate separately or pass values</td></tr>
+<tr><td>Readability</td><td>Often more direct</td><td>Useful for external/reusable templates</td></tr>
+<tr><td>Format specs</td><td>Supported</td><td>Supported</td></tr>
+<tr><td>Python version</td><td>Python 3.6+</td><td>Python 2.6+ / Python 3</td></tr></table>
+<pre><code>name = "Sara"
+score = 93.456
+
+# f-string
+print(f"{name}: {score:.2f}")
+
+# str.format()
+print("{}: {:.2f}".format(name, score))</code></pre>
+<p><strong>Practical recommendation:</strong> learn both so you can read existing code, but prefer f-strings for most new code.</p>
+</section>
+
+<section class="card" id="conditions">
+<h2>5. Conditional Statements</h2>
+<p class="lead">Conditions allow a program to make decisions. Python executes a block only when its condition evaluates to <code>True</code>.</p>
+<h3>5.1 if</h3>
+<pre><code>temperature = 30
+
+if temperature > 25:
+    print("It is warm.")</code></pre>
+<p>Python checks the condition. If it is true, the indented block runs. If it is false, Python skips that block.</p>
+<h3>5.2 if-else</h3>
+<pre><code>age = 17
+
+if age >= 18:
+    print("Access granted.")
+else:
+    print("Access denied.")</code></pre>
+<p>Exactly one of these two branches runs.</p>
+<h3>5.3 if-elif-else</h3>
+<p>Use <code>elif</code> when there are multiple possible conditions. Python checks them from top to bottom and executes the first matching branch.</p>
+<pre><code>score = 84
+
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"
+elif score >= 70:
+    grade = "C"
+elif score >= 60:
+    grade = "D"
+else:
+    grade = "F"
+
+print(f"Grade: {grade}")</code></pre>
+<div class="note warn"><strong>Order matters.</strong> If you put <code>score >= 60</code> first, a score of 95 will match it and later branches will never be checked. Put more specific or higher-threshold conditions first.</div>
+<h3>5.4 Comparison operators</h3>
+<table><tr><th>Operator</th><th>Meaning</th><th>Example</th></tr>
+<tr><td><code>==</code></td><td>Equal to</td><td><code>x == 5</code></td></tr>
+<tr><td><code>!=</code></td><td>Not equal to</td><td><code>x != 5</code></td></tr>
+<tr><td><code>&gt;</code></td><td>Greater than</td><td><code>x &gt; 5</code></td></tr>
+<tr><td><code>&lt;</code></td><td>Less than</td><td><code>x &lt; 5</code></td></tr>
+<tr><td><code>&gt;=</code></td><td>Greater than or equal to</td><td><code>x &gt;= 5</code></td></tr>
+<tr><td><code>&lt;=</code></td><td>Less than or equal to</td><td><code>x &lt;= 5</code></td></tr></table>
+<h3>5.5 Chained comparisons</h3>
+<p>Python allows readable mathematical comparisons:</p>
+<pre><code>age = 24
+
+if 18 <= age < 65:
+    print("Working-age range")</code></pre>
+<p>This is equivalent to checking both <code>age >= 18</code> and <code>age &lt; 65</code>.</p>
+<h3>5.6 Conditional expressions (ternary expressions)</h3>
+<p>For a simple choice between two values, use this compact expression:</p>
+<pre><code>age = 20
+status = "Adult" if age >= 18 else "Minor"
+print(status)</code></pre>
+<p>Do not use nested conditional expressions when they make the code difficult to read.</p>
+</section>
+
+<section class="card" id="logic">
+<h2>6. Logical Operators & Truthiness</h2>
+<h3>6.1 and, or, not</h3>
+<table><tr><th>Operator</th><th>Meaning</th><th>Result</th></tr>
+<tr><td><code>and</code></td><td>True only if both operands are truthy</td><td><code>True and False</code> → <code>False</code></td></tr>
+<tr><td><code>or</code></td><td>True if at least one operand is truthy</td><td><code>True or False</code> → <code>True</code></td></tr>
+<tr><td><code>not</code></td><td>Reverses truth value</td><td><code>not True</code> → <code>False</code></td></tr></table>
+<pre><code>age = 22
+has_id = True
+
+if age >= 18 and has_id:
+    print("You may enter.")
+
+is_weekend = True
+is_holiday = False
+
+if is_weekend or is_holiday:
+    print("No regular work today.")</code></pre>
+<h3>6.2 Short-circuit evaluation</h3>
+<p>Python may stop evaluating a logical expression as soon as its final result is known.</p>
+<pre><code>username = ""
+
+if username and len(username) >= 5:
+    print("Valid username")
+else:
+    print("Username is empty or too short")</code></pre>
+<p>Because an empty string is false, Python does not need to evaluate the second part of the <code>and</code> expression.</p>
+<h3>6.3 Truthy and falsy values</h3>
+<p>Conditions do not always need an explicit comparison. Python treats some values as false in Boolean contexts.</p>
+<div class="grid">
+<div class="mini"><h3>Common falsy values</h3><code>False</code>, <code>None</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>[]</code>, <code>{}</code>, <code>()</code>, <code>set()</code></div>
+<div class="mini"><h3>Common truthy values</h3><code>True</code>, non-zero numbers, non-empty strings, non-empty lists, non-empty dictionaries, and most objects</div>
+</div>
+<pre><code>items = []
+
+if items:
+    print("There are items.")
+else:
+    print("The list is empty.")</code></pre>
+<div class="note good"><strong>Good Python style:</strong> write <code>if items:</code> instead of <code>if len(items) &gt; 0:</code> when you only need to check whether a collection is non-empty.</div>
+<h3>6.4 Membership operators</h3>
+<p><code>in</code> checks whether a value exists in a collection or substring.</p>
+<pre><code>allowed_roles = ["admin", "editor"]
+
+if "admin" in allowed_roles:
+    print("Administrator access is available.")
+
+if "py" in "python":
+    print("Substring found.")</code></pre>
+</section>
+
+<section class="card" id="loops">
+<h2>7. Loops</h2>
+<p class="lead">A loop repeats a block of code. Python has two main loop statements: <code>for</code> and <code>while</code>.</p>
+<h3>7.1 for loop</h3>
+<p>A <code>for</code> loop iterates over the items of an iterable, such as a list, tuple, string, dictionary, set, or range.</p>
+<pre><code>languages = ["Python", "C", "Java"]
+
+for language in languages:
+    print(language)</code></pre>
+<p>On each iteration, the loop variable receives the next item.</p>
+<h3>7.2 Iterating over a string</h3>
+<pre><code>word = "CODE"
+
+for character in word:
+    print(character)</code></pre>
+<h3>7.3 range()</h3>
+<p><code>range()</code> generates a sequence of integers. The stop value is excluded.</p>
+<table><tr><th>Expression</th><th>Generated numbers</th></tr>
+<tr><td><code>range(5)</code></td><td>0, 1, 2, 3, 4</td></tr>
+<tr><td><code>range(2, 6)</code></td><td>2, 3, 4, 5</td></tr>
+<tr><td><code>range(1, 10, 2)</code></td><td>1, 3, 5, 7, 9</td></tr>
+<tr><td><code>range(5, 0, -1)</code></td><td>5, 4, 3, 2, 1</td></tr></table>
+<pre><code># start = 1, stop = 6 (excluded), step = 1
+for number in range(1, 6):
+    print(number)</code></pre>
+<div class="note warn"><strong>Off-by-one rule:</strong> <code>range(start, stop)</code> includes <code>start</code> but excludes <code>stop</code>. This is one of the most common sources of loop mistakes.</div>
+<h3>7.4 while loop</h3>
+<p>A <code>while</code> loop repeats as long as its condition remains true.</p>
+<pre><code>count = 1
+
+while count <= 5:
+    print(count)
+    count += 1</code></pre>
+<p>Execution flow:</p>
+<ol><li>Check the condition.</li><li>If it is true, execute the loop body.</li><li>Update relevant variables.</li><li>Return to the condition check.</li><li>Stop when the condition becomes false.</li></ol>
+<div class="note danger"><strong>Infinite loop warning:</strong> if the condition never becomes false, the loop may run forever. Make sure the loop has a valid stopping condition or an intentional exit.</div>
+<h3>7.5 for vs while</h3>
+<table><tr><th>for</th><th>while</th></tr>
+<tr><td>Best when iterating over a sequence or a known range</td><td>Best when repetition depends on a condition</td></tr>
+<tr><td>Gets the next item automatically</td><td>You often update state manually</td></tr>
+<tr><td>Common for lists, strings, files, and ranges</td><td>Common for input validation and condition-controlled repetition</td></tr></table>
+<h3>7.6 enumerate()</h3>
+<p>Use <code>enumerate()</code> when you need both an item's index and its value.</p>
+<pre><code>names = ["Ali", "Sara", "Nima"]
+
+for index, name in enumerate(names):
+    print(index, name)
+
+# Start counting from 1:
+for index, name in enumerate(names, start=1):
+    print(f"{index}. {name}")</code></pre>
+<h3>7.7 Iterating over dictionaries</h3>
+<pre><code>student = {"name": "Sara", "score": 94}
+
+for key in student:
+    print(key)                 # keys
+
+for value in student.values():
+    print(value)               # values
+
+for key, value in student.items():
+    print(f"{key}: {value}")  # key-value pairs</code></pre>
+</section>
+
+<section class="card" id="loop-control">
+<h2>8. break, continue, and pass</h2>
+<table><tr><th>Statement</th><th>What it does</th></tr>
+<tr><td><code>break</code></td><td>Immediately exits the nearest enclosing loop.</td></tr>
+<tr><td><code>continue</code></td><td>Skips the rest of the current iteration and moves to the next one.</td></tr>
+<tr><td><code>pass</code></td><td>Does nothing; it is a placeholder where Python syntax requires a statement.</td></tr></table>
+<h3>8.1 break</h3>
+<pre><code>for number in range(1, 10):
+    if number == 5:
+        break
+    print(number)
+
+# Output: 1 2 3 4</code></pre>
+<h3>8.2 continue</h3>
+<pre><code>for number in range(1, 6):
+    if number == 3:
+        continue
+    print(number)
+
+# Output: 1 2 4 5</code></pre>
+<h3>8.3 pass</h3>
+<pre><code>for number in range(3):
+    if number == 1:
+        pass  # TODO: implement this case later
+    print(number)</code></pre>
+<div class="note purple"><strong>Do not confuse them:</strong> <code>break</code> exits the loop; <code>continue</code> skips one iteration; <code>pass</code> simply does nothing.</div>
+</section>
+
+<section class="card" id="nested">
+<h2>9. Nested Loops</h2>
+<p>A nested loop is a loop inside another loop. For every iteration of the outer loop, the inner loop completes all of its iterations (unless control flow interrupts it).</p>
+<pre><code>for row in range(1, 4):
+    for column in range(1, 3):
+        print(f"row={row}, column={column}")</code></pre>
+<p>The inner loop runs 2 times for each of the 3 outer iterations: 3 × 2 = 6 total executions of the inner body.</p>
+<h3>Example: multiplication table</h3>
+<pre><code>for number in range(1, 4):
+    for multiplier in range(1, 4):
+        print(f"{number} x {multiplier} = {number * multiplier}")
+    print("---")</code></pre>
+<div class="note warn"><strong>Performance intuition:</strong> if an outer loop runs <code>n</code> times and an inner loop runs <code>m</code> times per outer iteration, the inner body runs <code>n × m</code> times. Nested loops are useful, but large iteration counts can become expensive.</div>
+</section>
+
+<section class="card" id="patterns">
+<h2>10. Choosing the Right Tool</h2>
+<div class="grid">
+<div class="mini"><span class="tag">Formatting</span><h3>Use an f-string</h3><p>When you want to insert variables or expressions into a string clearly.</p><pre><code>print(f"Total: {a + b}")</code></pre></div>
+<div class="mini"><span class="tag">Formatting</span><h3>Use format()</h3><p>When working with an existing template or reading older code.</p><pre><code>"Total: {}".format(total)</code></pre></div>
+<div class="mini"><span class="tag">Decision</span><h3>Use if / elif / else</h3><p>When the program must choose between different paths.</p><pre><code>if score >= 50:
+    result = "Pass"
+else:
+    result = "Fail"</code></pre></div>
+<div class="mini"><span class="tag">Repetition</span><h3>Use for</h3><p>When processing each item in an iterable or repeating a known number of times.</p><pre><code>for item in items:
+    print(item)</code></pre></div>
+<div class="mini"><span class="tag">Repetition</span><h3>Use while</h3><p>When repetition should continue until a condition changes.</p><pre><code>while not ready:
+    check_status()</code></pre></div>
+<div class="mini"><span class="tag">Flow control</span><h3>Use break / continue</h3><p>When you need to exit a loop early or skip the current iteration.</p><pre><code>if invalid:
+    continue</code></pre></div>
+</div>
+</section>
+
+<section class="card" id="mistakes">
+<h2>11. Common Mistakes & How to Avoid Them</h2>
+<table><tr><th>Incorrect / risky</th><th>Correct idea</th><th>Why</th></tr>
+<tr><td><code>if x = 5:</code></td><td><code>if x == 5:</code></td><td><code>=</code> assigns; <code>==</code> compares.</td></tr>
+<tr><td><code>if x &gt; 5</code> without <code>:</code></td><td><code>if x &gt; 5:</code></td><td>Compound statements need a colon.</td></tr>
+<tr><td>Inconsistent indentation</td><td>Use consistent indentation (normally 4 spaces).</td><td>Indentation defines Python blocks.</td></tr>
+<tr><td><code>range(1, 5)</code> expecting 1–5</td><td>Use <code>range(1, 6)</code></td><td>The stop value is excluded.</td></tr>
+<tr><td>Forgetting to update a while-loop variable</td><td>Update state or provide an exit.</td><td>The loop may never terminate.</td></tr>
+<tr><td><code>if value == True:</code> everywhere</td><td>Usually use <code>if value:</code></td><td>More direct when checking truthiness.</td></tr>
+<tr><td>Using <code>and</code> when either condition is enough</td><td>Use <code>or</code> if either may pass.</td><td>Logical operators express different rules.</td></tr>
+<tr><td>Putting a broad elif condition first</td><td>Order branches carefully.</td><td>Only the first matching branch runs.</td></tr></table>
+<h3>Loop-variable caution</h3>
+<pre><code># Risky: modifying a list while iterating over it
+numbers = [1, 2, 3, 4, 5]
+
+# Better: build a filtered list
+evens = [number for number in numbers if number % 2 == 0]</code></pre>
+<p>For basic learning, avoid changing the size of a list while looping over that same list. It can cause elements to be skipped or produce confusing behavior.</p>
+</section>
+
+<section class="exercise" id="practice">
+<h2>12. Practice Exercises</h2>
+<p>Try to solve these without looking up the answers immediately. Write and run your code, then test edge cases.</p>
+<h3>Exercise 1 — Formatting basics <span class="tag">Easy</span></h3>
+<p>Create variables <code>product</code>, <code>price</code>, and <code>quantity</code>. Print a sentence using an f-string that includes the total cost. Display the price with two decimal places.</p>
+<h3>Exercise 2 — Format method <span class="tag">Easy</span></h3>
+<p>Use <code>str.format()</code> to produce: <code>"Student: Sara | Score: 95"</code>. First use positional fields, then rewrite it using named fields.</p>
+<h3>Exercise 3 — Grade calculator <span class="tag">Medium</span></h3>
+<p>Ask the user for a score from 0 to 100. Print A for 90–100, B for 80–89, C for 70–79, D for 60–69, and F for below 60. Reject values outside the valid range.</p>
+<h3>Exercise 4 — Even numbers <span class="tag">Medium</span></h3>
+<p>Use a <code>for</code> loop and <code>range()</code> to print all even numbers from 2 through 30. Do not hard-code the numbers.</p>
+<h3>Exercise 5 — Input validation <span class="tag">Medium</span></h3>
+<p>Keep asking the user to enter a positive integer until they enter a valid positive value. Use a <code>while</code> loop. (You may assume the input is numeric for this exercise.)</p>
+<h3>Exercise 6 — Find the first match <span class="tag">Medium</span></h3>
+<p>Given <code>numbers = [4, 9, 12, 7, 18, 5]</code>, loop through the list. Print the first number greater than 10 and stop the loop immediately.</p>
+<h3>Exercise 7 — Skip multiples <span class="tag">Medium</span></h3>
+<p>Print numbers from 1 to 25, but skip multiples of 3. Use <code>continue</code>.</p>
+<h3>Exercise 8 — Nested loop pattern <span class="tag">Challenge</span></h3>
+<p>Use nested loops to print this pattern. Do not use a pre-written multi-line string:</p>
+<pre><code>*
+**
+***
+****
+*****</code></pre>
+<h3>Exercise 9 — Mini transaction report <span class="tag">Challenge</span></h3>
+<p>Given <code>transactions = [120.5, -30, 75, -10.25, 200]</code>, calculate the total balance change, count positive and negative transactions separately, and print a neatly formatted report using f-strings. Display money to two decimal places.</p>
+<h3>Exercise 10 — Number guessing logic <span class="tag">Challenge</span></h3>
+<p>Set a secret number in a variable. Let the user guess until they are correct. After each wrong guess, print whether the guess is too high or too low. Count and display the number of attempts.</p>
+<div class="note good"><strong>Suggested learning method:</strong> solve each exercise, test at least one edge case, and explain aloud why your code works. Reading code feels easy; producing it from a blank file is the real test.</div>
+</section>
+
+<section class="card" id="cheatsheet">
+<h2>13. Quick Reference Cheat Sheet</h2>
+<table><tr><th>Concept</th><th>Syntax</th></tr>
+<tr><td>F-string</td><td><code>f"Hello, {name}"</code></td></tr>
+<tr><td>Decimal precision</td><td><code>f"{price:.2f}"</code></td></tr>
+<tr><td>Thousands separator</td><td><code>f"{number:,}"</code></td></tr>
+<tr><td>String format method</td><td><code>"Hello, {}".format(name)</code></td></tr>
+<tr><td>if</td><td><code>if condition:</code></td></tr>
+<tr><td>if / else</td><td><code>if condition: ... else: ...</code></td></tr>
+<tr><td>Multiple branches</td><td><code>if ... elif ... else:</code></td></tr>
+<tr><td>Logical AND / OR / NOT</td><td><code>and</code> / <code>or</code> / <code>not</code></td></tr>
+<tr><td>Membership</td><td><code>value in collection</code></td></tr>
+<tr><td>For loop</td><td><code>for item in iterable:</code></td></tr>
+<tr><td>Range</td><td><code>range(start, stop, step)</code></td></tr>
+<tr><td>While loop</td><td><code>while condition:</code></td></tr>
+<tr><td>Index + value</td><td><code>for i, item in enumerate(items):</code></td></tr>
+<tr><td>Exit loop</td><td><code>break</code></td></tr>
+<tr><td>Skip iteration</td><td><code>continue</code></td></tr>
+<tr><td>Placeholder</td><td><code>pass</code></td></tr></table>
+</section>
+
+<div class="footer">
+  <p><strong>End of notes.</strong> Understand the flow, practise the syntax, and make the computer prove your assumptions.</p>
+  <p>Python Fundamentals • HTML study handout</p>
+</div>
+</div>
+</body>
+</html>
