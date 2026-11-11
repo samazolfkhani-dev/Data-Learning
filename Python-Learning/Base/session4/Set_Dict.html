@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جزوه جامع Set و Dictionary در پایتون</title>
+<style>
+:root{--bg:#f4f7fb;--paper:#fff;--ink:#172033;--muted:#526078;--blue:#2457a7;--blue2:#eaf1ff;--green:#16734b;--greenbg:#eaf8f0;--orange:#9a5a08;--orangebg:#fff5e5;--red:#a52b35;--redbg:#fff0f0;--line:#dce4ef;--code:#101827}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.95}
+.wrapper{max-width:1050px;margin:32px auto;padding:0 18px}.hero{background:linear-gradient(135deg,#13294b,#2457a7);color:white;padding:38px;border-radius:20px;margin-bottom:22px}.hero h1{font-size:2rem;margin:0 0 10px}.hero p{color:#e5edff;margin:0}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px;margin:18px 0;box-shadow:0 5px 18px #18345c0b}
+h2{font-size:1.5rem;color:var(--blue);border-bottom:2px solid var(--blue2);padding-bottom:8px;margin-top:0}h3{font-size:1.12rem;color:#253c60;margin-top:25px}
+p{margin:10px 0}ul,ol{padding-right:25px}li{margin:5px 0}
+code{font-family:Consolas,monospace;direction:ltr;unicode-bidi:embed;background:#edf2f8;padding:2px 6px;border-radius:5px;color:#183d70}
+pre{direction:ltr;text-align:left;white-space:pre-wrap;overflow-x:auto;background:var(--code);color:#e8efff;padding:17px;border-radius:12px;line-height:1.65;font:14px/1.65 Consolas,monospace}
+pre code{background:none;color:inherit;padding:0}
+.note,.warn,.good{padding:13px 16px;border-radius:10px;margin:14px 0}.note{background:var(--blue2);border-right:4px solid var(--blue)}.warn{background:var(--orangebg);border-right:4px solid var(--orange)}.good{background:var(--greenbg);border-right:4px solid var(--green)}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.95rem}th,td{border:1px solid var(--line);padding:10px;text-align:right;vertical-align:top}th{background:#edf3fc;color:#1b3e70}
+.pill{display:inline-block;background:#eaf1ff;color:#214f96;border-radius:20px;padding:2px 10px;font-size:.85rem}
+.toc a{color:var(--blue);text-decoration:none}.toc a:hover{text-decoration:underline}
+.small{color:var(--muted);font-size:.9rem}.ltr{direction:ltr;text-align:left}
+hr{border:0;border-top:1px solid var(--line);margin:22px 0}
+@media(max-width:650px){.hero{padding:25px}.hero h1{font-size:1.5rem}.card{padding:17px}table{font-size:.85rem}}
+@media print{body{background:white}.wrapper{margin:0;max-width:none}.card{box-shadow:none;break-inside:avoid}.hero{background:#2457a7!important;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<header class="hero">
+  <span class="pill">Python Core · Data Structures</span>
+  <h1>جزوه جامع Set و Dictionary در پایتون</h1>
+  <p>از مفهوم و ساختار داخلی تا تمام متدهای مهم، الگوهای کاربردی، خطاهای رایج و تمرین‌های چالشی</p>
+</header>
+
+<section class="card toc">
+<h2>نقشه راه جزوه</h2>
+<ol>
+<li><a href="#overview">آشنایی با ساختارهای داده</a></li>
+<li><a href="#set">Set یا مجموعه</a></li>
+<li><a href="#setops">عملیات مجموعه‌ها</a></li>
+<li><a href="#setmethods">تمام متدهای Set</a></li>
+<li><a href="#dict">Dictionary یا دیکشنری</a></li>
+<li><a href="#dictmethods">تمام متدهای Dictionary</a></li>
+<li><a href="#patterns">الگوهای کاربردی و نکات پیشرفته</a></li>
+<li><a href="#compare">مقایسه Set و Dictionary</a></li>
+<li><a href="#pitfalls">اشتباهات رایج</a></li>
+<li><a href="#exercises">تمرین‌ها و پاسخ تشریحی</a></li>
+</ol>
+</section>
+
+<section class="card" id="overview">
+<h2>۱. آشنایی با ساختارهای داده</h2>
+<p>در پایتون، <b>Data Structure</b> روشی برای ذخیره و سازمان‌دهی داده‌هاست. تا اینجا با List و Tuple آشنا شده‌ای. حالا دو ساختار مهم دیگر را یاد می‌گیریم:</p>
+<ul>
+<li><b>Set:</b> مجموعه‌ای از اعضای یکتا؛ برای حذف تکراری‌ها و انجام عملیات ریاضی مجموعه‌ها.</li>
+<li><b>Dictionary:</b> مجموعه‌ای از جفت‌های کلید ـ مقدار؛ برای دسترسی به داده از طریق یک کلید معنادار.</li>
+</ul>
+<table><tr><th>ویژگی</th><th>List</th><th>Tuple</th><th>Set</th><th>Dictionary</th></tr>
+<tr><td>ترتیب</td><td>حفظ می‌شود</td><td>حفظ می‌شود</td><td>ترتیب قابل اتکا ندارد</td><td>ترتیب درج حفظ می‌شود</td></tr>
+<tr><td>تکراری</td><td>مجاز</td><td>مجاز</td><td>مجاز نیست</td><td>کلید تکراری نیست؛ مقدار می‌تواند تکراری باشد</td></tr>
+<tr><td>تغییرپذیری</td><td>Mutable</td><td>Immutable</td><td>Mutable</td><td>Mutable</td></tr>
+<tr><td>دسترسی اصلی</td><td>Index</td><td>Index</td><td>عضویت با in</td><td>Key</td></tr></table>
+<div class="note"><b>نکته مهم:</b> «ترتیب درج» در دیکشنری از Python 3.7 به بعد بخشی از تضمین زبان است. اما Set برای نمایش یا پردازش ترتیبی طراحی نشده؛ روی ترتیب خروجی آن حساب نکن.</div>
+</section>
+
+<section class="card" id="set">
+<h2>۲. Set چیست؟</h2>
+<p><code>set</code> مجموعه‌ای از عناصر <b>یکتا</b> و <b>hashable</b> است. تکراری‌ها هنگام ساخت مجموعه حذف می‌شوند.</p>
+<pre><code>numbers = {1, 2, 3, 2, 1}
+print(numbers)       # {1, 2, 3}  (ترتیب خروجی تضمین‌شده نیست)
+print(len(numbers))  # 3</code></pre>
+<h3>ساخت Set</h3>
+<pre><code># روش اول: آکولاد
+colors = {"red", "green", "blue"}
+
+# روش دوم: تابع set()
+numbers = set([1, 2, 2, 3])
+letters = set("banana")  # {'b', 'a', 'n'}
+
+# ساخت مجموعه خالی
+empty_set = set()</code></pre>
+<div class="warn"><b>دام امتحانی:</b> عبارت <code>{}</code> یک دیکشنری خالی می‌سازد، نه Set خالی. برای Set خالی حتماً بنویس <code>set()</code>.</div>
+<h3>چه چیزهایی داخل Set قرار می‌گیرند؟</h3>
+<p>اعضا باید hashable باشند؛ معمولاً انواع immutable مثل <code>int</code>، <code>str</code>، <code>float</code> و tupleای که تمام اعضایش hashable باشند.</p>
+<pre><code>valid = {10, "Python", (1, 2), 3.5}
+
+# خطا: list و dict قابل hash نیستند
+# invalid = {[1, 2], {"a": 1}}</code></pre>
+<div class="note"><b>Hashable یعنی چه؟</b> شیئی که در طول عمر خود هشِ ثابت دارد و می‌تواند به‌عنوان عضو Set یا کلید Dictionary استفاده شود. قابل‌تغییر بودن معمولاً با hashable بودن سازگار نیست؛ به همین دلیل List و Dictionary عضو Set نمی‌شوند.</div>
+<h3>Set ایندکس ندارد</h3>
+<pre><code>items = {"apple", "banana", "orange"}
+# print(items[0])  # TypeError: set از index پشتیبانی نمی‌کند
+
+for item in items:
+    print(item)</code></pre>
+<p>برای بررسی وجود یک عضو از <code>in</code> استفاده کن:</p>
+<pre><code>if "apple" in items:
+    print("Found")</code></pre>
+</section>
+
+<section class="card" id="setops">
+<h2>۳. عملیات ریاضی روی Set</h2>
+<p>فرض کن دو مجموعه زیر را داریم:</p>
+<pre><code>A = {1, 2, 3, 4}
+B = {3, 4, 5, 6}</code></pre>
+<h3>Union — اجتماع</h3>
+<p>تمام اعضایی که در A یا B یا هر دو هستند. تکراری‌ها فقط یک‌بار می‌آیند.</p>
+<pre><code>print(A | B)
+print(A.union(B))
+# {1, 2, 3, 4, 5, 6}</code></pre>
+<h3>Intersection — اشتراک</h3>
+<p>فقط اعضایی که در هر دو مجموعه وجود دارند.</p>
+<pre><code>print(A & B)
+print(A.intersection(B))
+# {3, 4}</code></pre>
+<h3>Difference — تفاضل</h3>
+<p><code>A - B</code> اعضای موجود در A و غایب در B را برمی‌گرداند. جهت عملیات مهم است.</p>
+<pre><code>print(A - B)  # {1, 2}
+print(B - A)  # {5, 6}
+print(A.difference(B))</code></pre>
+<h3>Symmetric Difference — تفاضل متقارن</h3>
+<p>اعضایی که فقط در یکی از دو مجموعه‌اند، نه در هر دو.</p>
+<pre><code>print(A ^ B)
+print(A.symmetric_difference(B))
+# {1, 2, 5, 6}</code></pre>
+<h3>Subset و Superset</h3>
+<pre><code>X = {1, 2}
+Y = {1, 2, 3}
+
+print(X <= Y)  # True: زیرمجموعه یا برابر
+print(X < Y)   # True: زیرمجموعه واقعی
+print(Y >= X)  # True: ابرمجموعه یا برابر
+print(Y > X)   # True: ابرمجموعه واقعی
+
+print(X.issubset(Y))
+print(Y.issuperset(X))</code></pre>
+<h3>Disjoint — اشتراک تهی</h3>
+<pre><code>first = {1, 2}
+second = {3, 4}
+print(first.isdisjoint(second))  # True</code></pre>
+<div class="good"><b>کاربرد واقعی:</b> اگر بخواهی بفهمی دو گروه کاربر هیچ عضو مشترکی ندارند، <code>isdisjoint()</code> دقیقاً برای همین کار است.</div>
+</section>
+
+<section class="card" id="setmethods">
+<h2>۴. تمام متدهای Set</h2>
+<p>متدهای Set را می‌توان به دو گروه تقسیم کرد: متدهایی که خود مجموعه را تغییر می‌دهند و متدهایی که نتیجه جدید یا مقدار منطقی برمی‌گردانند.</p>
+<table>
+<tr><th>متد</th><th>کاربرد</th><th>نکته</th></tr>
+<tr><td><code>add(x)</code></td><td>افزودن یک عضو</td><td>اگر تکراری باشد، تغییری نمی‌کند.</td></tr>
+<tr><td><code>update(iterable)</code></td><td>افزودن همه اعضای iterable</td><td>هر عنصر iterable جداگانه اضافه می‌شود.</td></tr>
+<tr><td><code>remove(x)</code></td><td>حذف عضو</td><td>اگر عضو نباشد KeyError می‌دهد.</td></tr>
+<tr><td><code>discard(x)</code></td><td>حذف عضو</td><td>اگر عضو نباشد خطا نمی‌دهد.</td></tr>
+<tr><td><code>pop()</code></td><td>حذف و برگرداندن یک عضو</td><td>عضو انتخابی قابل پیش‌بینی نیست؛ Set خالی خطا می‌دهد.</td></tr>
+<tr><td><code>clear()</code></td><td>خالی کردن مجموعه</td><td>خود مجموعه را تغییر می‌دهد.</td></tr>
+<tr><td><code>copy()</code></td><td>کپی سطحی</td><td>یک Set جدید می‌سازد.</td></tr>
+<tr><td><code>union(*others)</code></td><td>اجتماع</td><td>Set جدید برمی‌گرداند.</td></tr>
+<tr><td><code>intersection(*others)</code></td><td>اشتراک</td><td>Set جدید برمی‌گرداند.</td></tr>
+<tr><td><code>difference(*others)</code></td><td>تفاضل</td><td>Set جدید برمی‌گرداند.</td></tr>
+<tr><td><code>symmetric_difference(other)</code></td><td>تفاضل متقارن</td><td>Set جدید برمی‌گرداند.</td></tr>
+<tr><td><code>intersection_update(*others)</code></td><td>نگه‌داشتن فقط اشتراک</td><td>خود مجموعه را تغییر می‌دهد.</td></tr>
+<tr><td><code>difference_update(*others)</code></td><td>حذف اعضای مجموعه‌های دیگر</td><td>خود مجموعه را تغییر می‌دهد.</td></tr>
+<tr><td><code>symmetric_difference_update(other)</code></td><td>جایگزینی با تفاضل متقارن</td><td>خود مجموعه را تغییر می‌دهد.</td></tr>
+<tr><td><code>issubset(other)</code></td><td>بررسی زیرمجموعه بودن</td><td>Boolean برمی‌گرداند.</td></tr>
+<tr><td><code>issuperset(other)</code></td><td>بررسی ابرمجموعه بودن</td><td>Boolean برمی‌گرداند.</td></tr>
+<tr><td><code>isdisjoint(other)</code></td><td>بررسی نداشتن عضو مشترک</td><td>Boolean برمی‌گرداند.</td></tr>
+</table>
+<h3>add در برابر update</h3>
+<pre><code>numbers = {1, 2}
+numbers.add(3)
+print(numbers)  # {1, 2, 3}
+
+numbers.update([4, 5], (6, 7))
+print(numbers)  # اعضای 4 تا 7 هم اضافه می‌شوند
+
+letters = set()
+letters.add("cat")       # یک عضو به نام "cat"
+letters.update("cat")    # حروف c و a و t به‌صورت جداگانه</code></pre>
+<h3>remove در برابر discard</h3>
+<pre><code>values = {10, 20, 30}
+values.remove(20)   # حذف می‌شود
+# values.remove(99) # KeyError
+
+values.discard(99)  # بدون خطا؛ چون 99 وجود ندارد</code></pre>
+<h3>pop و clear</h3>
+<pre><code>values = {10, 20, 30}
+removed = values.pop()
+print(removed)  # یکی از اعضا؛ عضو دقیق تضمین نشده است
+
+values.clear()
+print(values)   # set()</code></pre>
+<h3>نسخه‌های Update</h3>
+<pre><code>A = {1, 2, 3, 4}
+B = {3, 4, 5}
+
+A.intersection_update(B)
+print(A)  # {3, 4}
+
+A = {1, 2, 3, 4}
+A.difference_update({3, 4})
+print(A)  # {1, 2}
+
+A = {1, 2, 3}
+A.symmetric_difference_update({3, 4})
+print(A)  # {1, 2, 4}</code></pre>
+<div class="warn"><b>نکته حیاتی:</b> متدهای تغییردهنده مثل <code>add()</code>، <code>update()</code> و <code>clear()</code> معمولاً <code>None</code> برمی‌گردانند. این اشتباه است: <code>result = A.add(5)</code>؛ متغیر result برابر None می‌شود، نه Set جدید.</div>
+<h3>عملگرها یا متدها؟</h3>
+<table><tr><th>عملگر</th><th>متد متناظر</th><th>تفاوت مهم</th></tr>
+<tr><td><code>A | B</code></td><td><code>A.union(B)</code></td><td>عملگرها معمولاً operandهای Set می‌خواهند؛ متدها iterableهای مناسب را هم می‌پذیرند.</td></tr>
+<tr><td><code>A & B</code></td><td><code>A.intersection(B)</code></td><td>همین تفاوت نوع ورودی</td></tr>
+<tr><td><code>A - B</code></td><td><code>A.difference(B)</code></td><td>همین تفاوت نوع ورودی</td></tr>
+<tr><td><code>A ^ B</code></td><td><code>A.symmetric_difference(B)</code></td><td>همین تفاوت نوع ورودی</td></tr></table>
+</section>
+
+<section class="card" id="dict">
+<h2>۵. Dictionary چیست؟</h2>
+<p>دیکشنری داده‌ها را به شکل جفت‌های <b>key: value</b> نگه می‌دارد. به‌جای اینکه با شماره اندیس به داده برسیم، با یک کلید آن را پیدا می‌کنیم.</p>
+<pre><code>student = {
+    "name": "Sara",
+    "age": 21,
+    "major": "Computer Engineering"
+}
+
+print(student["name"])  # Sara
+print(student["age"])   # 21</code></pre>
+<h3>ساخت Dictionary</h3>
+<pre><code># با آکولاد
+person = {"name": "Ali", "age": 22}
+
+# با dict()
+person2 = dict(name="Ali", age=22)
+
+# از جفت‌های کلید و مقدار
+pairs = [("a", 1), ("b", 2)]
+letters = dict(pairs)
+
+# دیکشنری خالی
+empty_dict = {}</code></pre>
+<h3>قوانین Key و Value</h3>
+<ul>
+<li>کلیدها باید یکتا باشند. اگر یک کلید را چند بار بنویسی، مقدار آخر باقی می‌ماند.</li>
+<li>کلید باید hashable باشد؛ مثلاً رشته، عدد یا tuple مناسب.</li>
+<li>مقدار می‌تواند هر نوع داده‌ای باشد: عدد، رشته، List، Set، Dictionary یا حتی تابع.</li>
+<li>کلید و مقدار لازم نیست هم‌نوع باشند.</li>
+</ul>
+<pre><code>data = {
+    "name": "Mina",
+    10: "ten",
+    (1, 2): "coordinate",
+    "scores": [18, 19, 20],
+    "profile": {"city": "Zanjan"}
+}
+
+duplicate = {"x": 1, "x": 99}
+print(duplicate)  # {'x': 99}</code></pre>
+<div class="warn"><b>نکته:</b> این کد خطا می‌دهد چون List قابل hash نیست: <code>{[1, 2]: "value"}</code>. اما این کاملاً مجاز است: <code>{"scores": [18, 19]}</code>؛ چون List در اینجا value است، نه key.</div>
+<h3>دسترسی به مقدار</h3>
+<pre><code>student = {"name": "Sara", "age": 21}
+
+print(student["name"])  # Sara
+# print(student["grade"])  # KeyError
+
+print(student.get("grade"))       # None
+print(student.get("grade", 0))    # 0</code></pre>
+<p><code>dict[key]</code> در صورت نبود کلید خطا می‌دهد؛ <code>get()</code> در صورت نبود کلید مقدار پیش‌فرض یا None برمی‌گرداند.</p>
+<h3>افزودن و تغییر مقدار</h3>
+<pre><code>student = {"name": "Sara", "age": 21}
+
+student["age"] = 22           # تغییر مقدار موجود
+student["city"] = "Zanjan"    # افزودن کلید جدید
+
+print(student)</code></pre>
+<h3>حذف عضو</h3>
+<pre><code>student = {"name": "Sara", "age": 21}
+
+del student["age"]            # حذف با کلید
+age = student.pop("age", 0)   # حذف و برگرداندن مقدار؛ پیش‌فرض اختیاری
+last_item = student.popitem() # حذف و برگرداندن آخرین جفت درج‌شده
+student.clear()               # خالی کردن کل دیکشنری</code></pre>
+<p>دقت کن که در مثال بالا بعد از <code>del</code>، کلید age دیگر وجود ندارد؛ بنابراین اجرای بعدی <code>pop("age")</code> بدون default خطا می‌دهد. مثال‌ها را جداگانه اجرا کن یا ترتیبشان را تغییر بده.</p>
+<h3>پیمایش دیکشنری با for</h3>
+<pre><code>scores = {"Sara": 18, "Ali": 16, "Mina": 20}
+
+# پیمایش کلیدها (رفتار پیش‌فرض)
+for name in scores:
+    print(name)
+
+# پیمایش مقادیر
+for score in scores.values():
+    print(score)
+
+# پیمایش کلید و مقدار
+for name, score in scores.items():
+    print(name, score)</code></pre>
+<div class="good"><b>قاعده طلایی:</b> وقتی هم کلید و هم مقدار را لازم داری، از <code>items()</code> استفاده کن و دو متغیر در حلقه بگیر: <code>for key, value in my_dict.items()</code>.</div>
+</section>
+
+<section class="card" id="dictmethods">
+<h2>۶. تمام متدهای اصلی Dictionary</h2>
+<table>
+<tr><th>متد</th><th>کاربرد</th><th>خروجی / نکته</th></tr>
+<tr><td><code>get(key, default=None)</code></td><td>دریافت امن مقدار</td><td>در نبود کلید، default را برمی‌گرداند.</td></tr>
+<tr><td><code>keys()</code></td><td>نمای کلیدها</td><td>یک view پویا برمی‌گرداند.</td></tr>
+<tr><td><code>values()</code></td><td>نمای مقادیر</td><td>یک view پویا برمی‌گرداند.</td></tr>
+<tr><td><code>items()</code></td><td>نمای جفت‌ها</td><td>جفت‌های (key, value) را ارائه می‌کند.</td></tr>
+<tr><td><code>update(other)</code></td><td>ادغام/به‌روزرسانی</td><td>کلیدهای مشترک با مقدار جدید جایگزین می‌شوند.</td></tr>
+<tr><td><code>setdefault(key, default=None)</code></td><td>گرفتن مقدار یا ساخت کلید</td><td>اگر کلید نباشد آن را با default می‌سازد.</td></tr>
+<tr><td><code>pop(key[, default])</code></td><td>حذف کلید و برگرداندن مقدار</td><td>بدون default و با کلید ناموجود، KeyError.</td></tr>
+<tr><td><code>popitem()</code></td><td>حذف آخرین جفت درج‌شده</td><td>یک tuple شامل (key, value) می‌دهد.</td></tr>
+<tr><td><code>clear()</code></td><td>خالی کردن دیکشنری</td><td>خود دیکشنری را تغییر می‌دهد.</td></tr>
+<tr><td><code>copy()</code></td><td>کپی سطحی</td><td>یک دیکشنری جدید با همان ارجاع مقادیر تو در تو.</td></tr>
+<tr><td><code>fromkeys(iterable, value=None)</code></td><td>ساخت دیکشنری از کلیدها</td><td>همه کلیدها مقدار اولیه یکسان می‌گیرند.</td></tr>
+</table>
+<h3>keys، values و items</h3>
+<pre><code>user = {"name": "Ali", "age": 22}
+
+print(user.keys())    # dict_keys([...])
+print(user.values())  # dict_values([...])
+print(user.items())   # dict_items([...])
+
+# می‌توان روی آن‌ها حلقه زد
+for key in user.keys():
+    print(key)</code></pre>
+<p>این‌ها List نیستند؛ viewهای پویا هستند. اگر دیکشنری تغییر کند، view نیز تغییرات را منعکس می‌کند. اگر واقعاً List لازم داری، تبدیل کن:</p>
+<pre><code>key_list = list(user.keys())
+value_list = list(user.values())
+item_list = list(user.items())</code></pre>
+<h3>update</h3>
+<pre><code>profile = {"name": "Sara", "age": 20}
+profile.update({"age": 21, "city": "Tabriz"})
+print(profile)
+# {'name': 'Sara', 'age': 21, 'city': 'Tabriz'}
+
+profile.update(country="Iran")</code></pre>
+<p>اگر کلیدی در هر دو دیکشنری باشد، مقدار ورودی جدید جای مقدار قبلی را می‌گیرد. <code>update()</code> دیکشنری اصلی را تغییر می‌دهد و دیکشنری جدید برنمی‌گرداند.</p>
+<h3>setdefault</h3>
+<pre><code>student = {"name": "Mina"}
+
+result = student.setdefault("grade", 18)
+print(result)   # 18
+print(student)  # کلید grade اضافه شده
+
+result = student.setdefault("name", "Unknown")
+print(result)   # Mina؛ مقدار قبلی تغییر نمی‌کند</code></pre>
+<p>تفاوت مهم: <code>get()</code> فقط می‌خواند؛ <code>setdefault()</code> اگر کلید نباشد آن را ایجاد می‌کند.</p>
+<h3>fromkeys</h3>
+<pre><code>keys = ["name", "age", "city"]
+new_dict = dict.fromkeys(keys, None)
+print(new_dict)
+# {'name': None, 'age': None, 'city': None}</code></pre>
+<div class="warn"><b>دام مهم با مقدار mutable:</b> همه کلیدها به همان شیء مشترک اشاره می‌کنند، اگر value یک List باشد.</div>
+<pre><code>bad = dict.fromkeys(["a", "b"], [])
+bad["a"].append(10)
+print(bad)  # {'a': [10], 'b': [10]}  هر دو یک List مشترک دارند!
+
+# روش درست برای List مستقل:
+good = {key: [] for key in ["a", "b"]}
+good["a"].append(10)
+print(good)  # {'a': [10], 'b': []}</code></pre>
+<h3>کپی سطحی و عمیق</h3>
+<pre><code>original = {"name": "Ali", "scores": [18, 19]}
+shallow = original.copy()
+
+shallow["name"] = "Sara"
+shallow["scores"].append(20)
+
+print(original)
+# name همچنان Ali است، اما scores شامل 20 شده است.</code></pre>
+<p><code>copy()</code> فقط دیکشنری بیرونی را کپی می‌کند؛ اشیای تو در تو مشترک‌اند. برای کپی مستقل و عمیق:</p>
+<pre><code>import copy
+
+deep = copy.deepcopy(original)</code></pre>
+</section>
+
+<section class="card" id="patterns">
+<h2>۷. الگوهای کاربردی و نکات پیشرفته</h2>
+<h3>الف) شمارش تکرارها با Dictionary</h3>
+<pre><code>words = ["python", "sql", "python", "linux", "sql", "python"]
+counts = {}
+
+for word in words:
+    if word in counts:
+        counts[word] += 1
+    else:
+        counts[word] = 1
+
+print(counts)
+# {'python': 3, 'sql': 2, 'linux': 1}</code></pre>
+<p>نسخه کوتاه‌تر با <code>get()</code>:</p>
+<pre><code>counts = {}
+for word in words:
+    counts[word] = counts.get(word, 0) + 1</code></pre>
+<h3>ب) گروه‌بندی داده‌ها</h3>
+<pre><code>records = [
+    ("Sara", "Python"),
+    ("Ali", "SQL"),
+    ("Mina", "Python"),
+    ("Reza", "SQL")
+]
+
+groups = {}
+for name, course in records:
+    if course not in groups:
+        groups[course] = []
+    groups[course].append(name)
+
+print(groups)
+# {'Python': ['Sara', 'Mina'], 'SQL': ['Ali', 'Reza']}</code></pre>
+<h3>ج) حذف تکراری‌های یک List</h3>
+<pre><code>numbers = [3, 1, 3, 2, 1, 4]
+unique = list(set(numbers))
+print(unique)</code></pre>
+<div class="warn">این روش ترتیب اصلی عناصر را تضمین نمی‌کند. برای حذف تکراری‌ها با حفظ ترتیب از این روش استفاده کن:</div>
+<pre><code>numbers = [3, 1, 3, 2, 1, 4]
+unique_ordered = list(dict.fromkeys(numbers))
+print(unique_ordered)  # [3, 1, 2, 4]</code></pre>
+<h3>د) بررسی اشتراک دو List</h3>
+<pre><code>registered = ["Ali", "Sara", "Mina"]
+paid = ["Sara", "Reza", "Ali"]
+
+both = set(registered) & set(paid)
+print(both)  # {'Ali', 'Sara'} (ترتیب مهم نیست)</code></pre>
+<h3>هـ) Dictionary Comprehension</h3>
+<p>مانند List Comprehension، اما خروجی یک Dictionary است.</p>
+<pre><code>squares = {x: x ** 2 for x in range(1, 6)}
+print(squares)
+# {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+
+even_squares = {x: x ** 2 for x in range(1, 11) if x % 2 == 0}</code></pre>
+<h3>و) Set Comprehension</h3>
+<pre><code>remainders = {x % 3 for x in range(10)}
+print(remainders)  # {0, 1, 2}</code></pre>
+<h3>ز) ادغام دیکشنری‌ها</h3>
+<pre><code>a = {"x": 1, "y": 2}
+b = {"y": 99, "z": 3}
+
+merged = a | b             # Python 3.9+
+print(merged)              # y از b می‌آید؛ مقدار 99
+
+# روش سازگار با نسخه‌های قدیمی‌تر:
+merged2 = {**a, **b}
+
+# یا:
+merged3 = a.copy()
+merged3.update(b)</code></pre>
+<h3>ح) عملگر عضویت</h3>
+<pre><code>person = {"name": "Sara", "age": 20}
+
+print("name" in person)       # True؛ بررسی کلید
+print("Sara" in person)       # False؛ مقدار را بررسی نمی‌کند
+print("Sara" in person.values())  # True</code></pre>
+<div class="note"><b>نکته کلیدی:</b> <code>in</code> روی Dictionary به‌طور پیش‌فرض کلیدها را بررسی می‌کند، نه valueها.</div>
+<h3>ط) دسترسی به داده‌های تو در تو</h3>
+<pre><code>company = {
+    "name": "Tech Co",
+    "employees": [
+        {"name": "Sara", "skills": ["Python", "SQL"]},
+        {"name": "Ali", "skills": ["Linux", "C"]}
+    ]
+}
+
+print(company["employees"][0]["skills"][1])  # SQL</code></pre>
+<h3>ی) حل ساده با Counter</h3>
+<pre><code>from collections import Counter
+
+words = ["a", "b", "a", "c", "a", "b"]
+counter = Counter(words)
+
+print(counter)               # Counter({'a': 3, 'b': 2, 'c': 1})
+print(counter.most_common(2)) # [('a', 3), ('b', 2)]</code></pre>
+<p><code>Counter</code> یک ابزار تخصصی مبتنی بر دیکشنری برای شمارش است؛ دانستنش مفید است، اما ابتدا منطق شمارش دستی را کامل یاد بگیر.</p>
+</section>
+
+<section class="card" id="compare">
+<h2>۸. مقایسه Set و Dictionary</h2>
+<table><tr><th>موضوع</th><th>Set</th><th>Dictionary</th></tr>
+<tr><td>ساختار</td><td>مجموعه عضوهای یکتا</td><td>کلیدهای یکتا به همراه مقدار</td></tr>
+<tr><td>نمونه</td><td><code>{"red", "blue"}</code></td><td><code>{"color": "red"}</code></td></tr>
+<tr><td>دسترسی</td><td>با پیمایش یا عضویت</td><td>با کلید</td></tr>
+<tr><td>تکرار</td><td>عضو تکراری حذف می‌شود</td><td>کلید تکراری مقدار قبلی را بازنویسی می‌کند</td></tr>
+<tr><td>متدهای مهم</td><td><code>add, update, discard, union</code></td><td><code>get, update, items, pop</code></td></tr>
+<tr><td>کاربرد نمونه</td><td>شناسه‌های یکتا، اشتراک گروه‌ها</td><td>مشخصات کاربر، شمارش، تنظیمات</td></tr></table>
+<h3>از نظر سرعت چه؟</h3>
+<p>بررسی عضویت با <code>in</code> در Set و بررسی وجود کلید در Dictionary به‌طور متوسط زمان نزدیک به <code>O(1)</code> دارد. در List بررسی عضویت معمولاً <code>O(n)</code> است. این‌ها پیچیدگی متوسط‌اند، نه تضمین زمان ثابت در همه شرایط.</p>
+<p>Set و Dictionary هر دو بر پایه Hash Table پیاده‌سازی شده‌اند؛ به همین علت شرط hashable بودن اعضای Set و کلیدهای Dictionary اهمیت دارد.</p>
+</section>
+
+<section class="card" id="pitfalls">
+<h2>۹. اشتباهات رایج و دام‌های مهم</h2>
+<ol>
+<li><b>اشتباه گرفتن Set خالی و Dictionary خالی:</b> <code>{}</code> دیکشنری است؛ <code>set()</code> مجموعه خالی است.</li>
+<li><b>استفاده از اندیس برای Set:</b> Set اندیس ندارد.</li>
+<li><b>عضو یا کلید mutable:</b> List و Dictionary نمی‌توانند عضو Set یا کلید Dictionary باشند.</li>
+<li><b>فراموش کردن تفاوت remove و discard:</b> اولی در نبود عضو خطا می‌دهد؛ دومی نه.</li>
+<li><b>انتظار خروجی از متدهای تغییردهنده:</b> متدهایی مثل <code>add</code>، <code>clear</code> و <code>update</code> را به‌عنوان مقدار بازگشتی استفاده نکن.</li>
+<li><b>فکر کردن in در Dictionary مقدار را می‌سنجد:</b> فقط کلید را می‌سنجد.</li>
+<li><b>فرض ترتیب در Set:</b> روی ترتیب اعضا حساب نکن.</li>
+<li><b>کپی سطحی:</b> کپی کردن دیکشنری، Listهای تو در تو را مستقل نمی‌کند.</li>
+<li><b>استفاده نادرست از fromkeys با List:</b> ممکن است تمام کلیدها به یک List مشترک اشاره کنند.</li>
+<li><b>اشتباه گرفتن pop و popitem:</b> در Dictionary، <code>pop(key)</code> با کلید کار می‌کند؛ <code>popitem()</code> آخرین جفت درج‌شده را حذف می‌کند. در Set، <code>pop()</code> یک عضو دلخواه را حذف می‌کند.</li>
+</ol>
+</section>
+
+<section class="card" id="exercises">
+<h2>۱۰. تمرین‌ها</h2>
+<p>پیشنهاد: ابتدا بدون دیدن پاسخ فکر کن و کد را خودت اجرا کن. هدف فقط حفظ کردن متدها نیست؛ باید تشخیص بدهی کدام ساختار برای مسئله مناسب‌تر است.</p>
+<h3>تمرین ۱ — حذف تکراری‌ها</h3>
+<p>از List زیر یک مجموعه از اعداد یکتا بساز و تعداد اعضای یکتا را چاپ کن.</p>
+<pre><code>numbers = [4, 2, 4, 7, 2, 9, 7, 1]</code></pre>
+<h3>تمرین ۲ — تحلیل دو گروه</h3>
+<p>دو Set از دانشجویانی که در دو کارگاه ثبت‌نام کرده‌اند بساز. موارد زیر را چاپ کن: افراد حاضر در هر دو کارگاه، فقط کارگاه اول، و افرادی که فقط در یکی از دو کارگاه هستند.</p>
+<h3>تمرین ۳ — شمارش کلمات</h3>
+<p>با یک Dictionary تعداد تکرار هر کلمه را در لیست زیر حساب کن. سپس کلمه پرتکرار را پیدا کن.</p>
+<pre><code>words = ["sql", "python", "sql", "linux", "python", "sql"]</code></pre>
+<h3>تمرین ۴ — موجودی فروشگاه</h3>
+<p>دیکشنری موجودی محصولات را بساز. سپس تعداد محصول <code>mouse</code> را ۵ واحد افزایش بده؛ محصول <code>keyboard</code> را حذف کن؛ اگر <code>monitor</code> وجود نداشت مقدار پیش‌فرض صفر نشان بده.</p>
+<h3>تمرین ۵ — گروه‌بندی نمرات</h3>
+<p>از لیستی شامل زوج‌های (نام دانشجو، نام درس)، دیکشنری‌ای بساز که کلید آن نام درس و مقدار آن لیست دانشجویان همان درس باشد.</p>
+<h3>تمرین ۶ — چالش ترکیبی</h3>
+<p>اطلاعات سفارش‌ها به شکل زیر است. یک دیکشنری بساز که برای هر مشتری مجموع مبلغ خرید را نگه دارد. سپس Set مشتریانی را بساز که مجموع خریدشان حداقل ۲۰۰۰ است.</p>
+<pre><code>orders = [
+    ("O1", "Sara", 1200),
+    ("O2", "Ali", 800),
+    ("O3", "Sara", 900),
+    ("O4", "Mina", 2500),
+    ("O5", "Ali", 1400)
+]</code></pre>
+<hr>
+<h3>پاسخ‌های نمونه</h3>
+<details>
+<summary><b>پاسخ تمرین ۱</b></summary>
+<pre><code>numbers = [4, 2, 4, 7, 2, 9, 7, 1]
+unique_numbers = set(numbers)
+print(unique_numbers)
+print(len(unique_numbers))</code></pre>
+</details>
+<details>
+<summary><b>پاسخ تمرین ۲</b></summary>
+<pre><code>workshop_a = {"Sara", "Ali", "Mina"}
+workshop_b = {"Mina", "Reza", "Sara"}
+
+print(workshop_a & workshop_b)
+print(workshop_a - workshop_b)
+print(workshop_a ^ workshop_b)</code></pre>
+</details>
+<details>
+<summary><b>پاسخ تمرین ۳</b></summary>
+<pre><code>words = ["sql", "python", "sql", "linux", "python", "sql"]
+counts = {}
+
+for word in words:
+    counts[word] = counts.get(word, 0) + 1
+
+most_common_word = max(counts, key=counts.get)
+print(counts)
+print(most_common_word, counts[most_common_word])</code></pre>
+</details>
+<details>
+<summary><b>پاسخ تمرین ۴</b></summary>
+<pre><code>stock = {"mouse": 10, "keyboard": 5, "laptop": 3}
+stock["mouse"] += 5
+stock.pop("keyboard", None)
+print(stock.get("monitor", 0))</code></pre>
+</details>
+<details>
+<summary><b>پاسخ تمرین ۵</b></summary>
+<pre><code>records = [
+    ("Sara", "Python"),
+    ("Ali", "SQL"),
+    ("Mina", "Python"),
+    ("Reza", "SQL")
+]
+
+groups = {}
+for name, course in records:
+    groups.setdefault(course, []).append(name)
+
+print(groups)</code></pre>
+</details>
+<details>
+<summary><b>پاسخ تمرین ۶</b></summary>
+<pre><code>orders = [
+    ("O1", "Sara", 1200),
+    ("O2", "Ali", 800),
+    ("O3", "Sara", 900),
+    ("O4", "Mina", 2500),
+    ("O5", "Ali", 1400)
+]
+
+totals = {}
+for order_id, customer, amount in orders:
+    totals[customer] = totals.get(customer, 0) + amount
+
+qualified = {
+    customer
+    for customer, total in totals.items()
+    if total >= 2000
+}
+
+print(totals)
+print(qualified)</code></pre>
+<p>خروجی مجموع‌ها: Sara برابر 2100، Ali برابر 2200 و Mina برابر 2500 است؛ پس هر سه مشتری در Set نهایی قرار می‌گیرند.</p>
+</details>
+</section>
+
+<section class="card">
+<h2>جمع‌بندی نهایی</h2>
+<ul>
+<li>برای نگهداری اعضای یکتا و عملیات اجتماع/اشتراک/تفاضل، از <b>Set</b> استفاده کن.</li>
+<li>برای نگاشت یک شناسه یا کلید به یک مقدار، از <b>Dictionary</b> استفاده کن.</li>
+<li>در Set، متدهای <code>add</code>، <code>update</code>، <code>remove</code> و <code>discard</code> را خوب بلد باش.</li>
+<li>در Dictionary، تفاوت <code>[]</code>، <code>get</code> و <code>setdefault</code> بسیار مهم است.</li>
+<li>برای پیمایش Dictionary، <code>keys()</code>، <code>values()</code> و مخصوصاً <code>items()</code> را بشناس.</li>
+<li>مفهوم hashable بودن، کپی سطحی و mutable بودن را درک کن؛ این‌ها پایه فهم رفتار این دو ساختارند.</li>
+</ul>
+<div class="good"><b>معیار تسلط:</b> اگر بتوانی تمرین‌های ۳ تا ۶ را بدون نگاه کردن به جزوه حل کنی و توضیح بدهی چرا از Set یا Dictionary استفاده کرده‌ای، مفاهیم اصلی را یاد گرفته‌ای.</div>
+<p class="small">تهیه‌شده برای یادگیری Python Core · قابل باز شدن در مرورگر و قابل چاپ به PDF از طریق Print</p>
+</section>
+</div>
+</body>
+</html>
