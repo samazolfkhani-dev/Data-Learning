@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Masterclass | Functions & Scope</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2d;--panel2:#17233b;--ink:#edf3ff;--muted:#a8b5cf;--line:#293753;--cyan:#65e4d2;--violet:#a99aff;--gold:#ffd27a;--pink:#ff91b5;--green:#91e6a8;--code:#080d18;--shadow:0 18px 55px #0005}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 10% 0%,#202b51 0,transparent 28%),radial-gradient(circle at 90% 15%,#183c45 0,transparent 25%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.95}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}.wrap{max-width:1180px;margin:auto;padding:28px 22px 80px}
+.hero{position:relative;overflow:hidden;padding:48px 42px;border:1px solid #425175;border-radius:28px;background:linear-gradient(125deg,#182743ee,#222044e8 58%,#12414aee);box-shadow:var(--shadow)}
+.hero:after{content:"def()";position:absolute;left:25px;bottom:-42px;font: bold 150px monospace;color:#ffffff0b;direction:ltr}
+.eyebrow{color:var(--cyan);font-size:13px;letter-spacing:2px;font-weight:bold}.hero h1{font-size:clamp(30px,5vw,54px);line-height:1.35;margin:10px 0}.hero p{max-width:760px;color:#d1dcf3;font-size:17px}.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px}.chip{border:1px solid #ffffff35;background:#ffffff0c;padding:5px 12px;border-radius:30px;font-size:12px;color:#e4edff}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:24px;margin-top:26px}.toc{position:sticky;top:18px;align-self:start;background:#10192bdb;border:1px solid var(--line);border-radius:20px;padding:18px;max-height:calc(100vh - 36px);overflow:auto}.toc h3{margin:0 0 10px;color:var(--cyan);font-size:15px}.toc a{display:block;padding:6px 9px;color:var(--muted);font-size:13px;border-radius:8px}.toc a:hover{background:#ffffff0c;color:white}
+main{min-width:0}.section{margin-bottom:22px;padding:28px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#131d31,#101827);box-shadow:0 10px 35px #0002}.section h2{font-size:25px;margin:0 0 14px;color:var(--cyan)}.section h3{font-size:18px;color:var(--violet);margin:25px 0 8px}.section h4{color:var(--gold);margin:18px 0 5px}.lead{color:#d4def1;font-size:16px}.note,.warning,.tip,.definition{padding:14px 17px;border-radius:13px;margin:15px 0;border-right:4px solid}.note{background:#19374480;border-color:var(--cyan)}.warning{background:#49321d70;border-color:var(--gold)}.tip{background:#203c2b80;border-color:var(--green)}.definition{background:#29264b80;border-color:var(--violet)}
+code{font-family:"Cascadia Code",Consolas,monospace;direction:ltr;unicode-bidi:embed;color:#b9f4e9;background:#080f1b;padding:2px 6px;border-radius:5px;font-size:.93em}
+pre{direction:ltr;text-align:left;white-space:pre;overflow-x:auto;background:var(--code);border:1px solid #283650;border-radius:14px;padding:18px 20px;color:#e4edff;line-height:1.65;font:13px/1.7 "Cascadia Code",Consolas,monospace;position:relative}
+pre .comment{color:#8292ad}.kw{color:#c6a8ff}.str{color:#a5e6a0}.num{color:#ffc879}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}th,td{padding:11px 12px;border:1px solid var(--line);text-align:right;vertical-align:top}th{background:#202d49;color:var(--cyan)}tr:nth-child(even) td{background:#ffffff05}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:15px 0}.mini{padding:15px;border:1px solid var(--line);border-radius:14px;background:#ffffff06}.mini strong{color:var(--gold);display:block;margin-bottom:5px}
+.pill{display:inline-block;border-radius:20px;padding:2px 9px;font-size:11px;background:#273752;color:#dce8ff;margin:2px}
+details{border:1px solid var(--line);border-radius:12px;padding:12px 15px;margin:12px 0;background:#ffffff04}summary{cursor:pointer;color:var(--gold);font-weight:bold}
+.quiz{background:#0c1423;border:1px solid #354563;border-radius:15px;padding:17px;margin:14px 0}.quiz button{background:#273958;color:white;border:1px solid #52688d;padding:8px 13px;border-radius:8px;cursor:pointer;margin:5px}.quiz button:hover{background:#36517c}.answer{display:none;color:var(--green);margin-top:10px}
+.footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:13px}
+.ltr{direction:ltr;text-align:left;display:inline-block}.muted{color:var(--muted)}.small{font-size:13px;color:var(--muted)}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.toc{position:relative;top:0;max-height:none}.hero{padding:32px 23px}.section{padding:21px 17px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+ <div class="eyebrow">PYTHON CORE • DEEP DIVE</div>
+ <h1>Functions & Scope</h1>
+ <p>از تعریف تابع تا مدیریت فضای نام، آرگومان‌ها، بازگشت مقدار، توابع تو‌در‌تو و قانون LEGB؛ یک درس‌نامه‌ی مفهومی و کاربردی برای نوشتن کد تمیز، قابل‌استفاده‌مجدد و قابل‌اعتماد.</p>
+ <div class="chips"><span class="chip">مناسب مرور جدی Python</span><span class="chip">همراه مثال و دام‌های رایج</span><span class="chip">نسخه آموزشی مستقل</span><span class="chip">Python 3</span></div>
+</header>
+<div class="layout">
+<nav class="toc">
+ <h3>نقشه‌ی درس</h3>
+ <a href="#why">۱. چرا تابع؟</a><a href="#basics">۲. تعریف و فراخوانی</a><a href="#parameters">۳. پارامتر و آرگومان</a><a href="#return">۴. return و خروجی</a><a href="#args">۵. *args و **kwargs</a><a href="#scope">۶. Scope و قانون LEGB</a><a href="#global">۷. global و nonlocal</a><a href="#nested">۸. توابع تو‌در‌تو و Closure</a><a href="#lambda">۹. Lambda</a><a href="#advanced">۱۰. نکات پیشرفته</a><a href="#pitfalls">۱۱. اشتباهات رایج</a><a href="#summary">۱۲. جمع‌بندی و چک‌لیست</a><a href="#quiz">۱۳. خودآزمایی</a>
+</nav>
+<main>
+<section class="section" id="why">
+<h2>۱) Function چیست و چرا به آن نیاز داریم؟</h2>
+<p class="lead">تابع (Function) یک بلوک کدِ نام‌گذاری‌شده و قابل‌فراخوانی است که معمولاً یک وظیفه‌ی مشخص را انجام می‌دهد. تابع می‌تواند ورودی بگیرد، پردازش کند و نتیجه برگرداند.</p>
+<div class="definition"><b>تعریف دقیق:</b> تابع ابزاری برای بسته‌بندی منطق برنامه در یک واحد مستقل است؛ به‌جای تکرار یک الگوریتم، آن را یک‌بار تعریف می‌کنیم و هرجا لازم شد فراخوانی می‌کنیم.</div>
+<div class="grid">
+ <div class="mini"><strong>Reusability</strong>یک منطق را چند بار و در بخش‌های مختلف استفاده می‌کنیم.</div>
+ <div class="mini"><strong>Modularity</strong>برنامه را به بخش‌های کوچک‌تر با مسئولیت روشن تقسیم می‌کنیم.</div>
+ <div class="mini"><strong>Maintainability</strong>اصلاح یک رفتار در یک نقطه انجام می‌شود، نه در ده جای مختلف.</div>
+ <div class="mini"><strong>Testability</strong>هر تابع را می‌توان جداگانه آزمایش کرد.</div>
+</div>
+<h3>بدون تابع در برابر تابع‌محور</h3>
+<pre><span class="comment"># تکرار منطق</span>
+price1 = 120
+print(price1 * 1.09)
+
+price2 = 250
+print(price2 * 1.09)
+
+<span class="comment"># بسته‌بندی منطق در تابع</span>
+def add_tax(price):
+    return price * 1.09
+
+print(add_tax(120))
+print(add_tax(250))</pre>
+<div class="tip">قاعده‌ی طراحی: هر تابع بهتر است یک مسئولیت روشن داشته باشد. تابعی که هم فایل می‌خواند، هم داده را پاک‌سازی می‌کند، هم گزارش چاپ می‌کند و هم ایمیل می‌فرستد، احتمالاً بیش از حد مسئولیت گرفته است.</div>
+</section>
+
+<section class="section" id="basics">
+<h2>۲) تعریف و فراخوانی تابع</h2>
+<p>برای تعریف تابع از کلمه‌ی کلیدی <code>def</code> استفاده می‌کنیم. بدنه‌ی تابع با تورفتگی (indentation) مشخص می‌شود.</p>
+<pre>def function_name(parameters):
+    """Optional docstring."""
+    statement
+    return result</pre>
+<table><tr><th>بخش</th><th>معنا</th></tr>
+<tr><td><code>def</code></td><td>اعلام تعریف یک تابع</td></tr><tr><td><code>function_name</code></td><td>نام تابع؛ بهتر است توصیفی و با <span class="ltr">snake_case</span> باشد.</td></tr><tr><td><code>parameters</code></td><td>نام متغیرهایی که تابع هنگام اجرا ورودی را از طریق آن‌ها دریافت می‌کند.</td></tr><tr><td>بدنه</td><td>دستورهایی که هنگام فراخوانی اجرا می‌شوند.</td></tr><tr><td><code>return</code></td><td>پایان اجرای تابع و تحویل نتیجه به فراخواننده.</td></tr></table>
+<h3>مثال پایه</h3>
+<pre>def greet():
+    print("Hello, Python!")
+
+greet()  <span class="comment"># function call</span>
+greet()  <span class="comment"># same function, another call</span></pre>
+<div class="warning"><b>نکته‌ی مهم:</b> تعریف تابع به‌تنهایی بدنه‌ی آن را اجرا نمی‌کند. تا وقتی تابع را فراخوانی نکنیم، دستورات داخل آن اجرا نخواهند شد.</div>
+<h3>نام‌گذاری تابع</h3>
+<ul><li>از نام معنادار استفاده کن: <code>calculate_total()</code> بهتر از <code>ct()</code> است.</li><li>نام تابع معمولاً فعل یا ترکیب فعل‌محور است: <code>get_user()</code>، <code>validate_email()</code>.</li><li>از نام توابع داخلی مثل <code>sum</code>، <code>list</code>، <code>str</code> و <code>max</code> برای تابع خودت استفاده نکن؛ نام داخلی را سایه می‌اندازی.</li><li>نام تابع به حروف بزرگ و کوچک حساس است: <code>print_data</code> با <code>Print_Data</code> یکی نیست.</li></ul>
+</section>
+
+<section class="section" id="parameters">
+<h2>۳) Parameters و Arguments</h2>
+<p>این دو اصطلاح نزدیک‌اند اما یکی نیستند:</p>
+<div class="grid"><div class="mini"><strong>Parameter (پارامتر)</strong>متغیری که در تعریف تابع نوشته می‌شود.</div><div class="mini"><strong>Argument (آرگومان)</strong>مقدار واقعی‌ای که هنگام فراخوانی به تابع می‌دهیم.</div></div>
+<pre>def welcome(name):       <span class="comment"># name = parameter</span>
+    print(f"Welcome, {name}")
+
+welcome("Sama")          <span class="comment"># "Sama" = argument</span></pre>
+<h3>۳.۱ آرگومان موقعیتی (Positional)</h3>
+<p>مقدار بر اساس ترتیب پارامترها به آن‌ها نسبت داده می‌شود.</p>
+<pre>def introduce(name, age):
+    print(name, age)
+
+introduce("Sara", 21)  <span class="comment"># name='Sara', age=21</span></pre>
+<p class="warning">ترتیب را اشتباه بدهی، ممکن است برنامه بدون خطا ولی با نتیجه‌ی غلط اجرا شود.</p>
+<h3>۳.۲ آرگومان کلیدواژه‌ای (Keyword)</h3>
+<p>با نوشتن نام پارامتر، مقدار را صریحاً به آن وصل می‌کنیم؛ بنابراین ترتیب آرگومان‌ها مهم نیست.</p>
+<pre>def introduce(name, age):
+    print(name, age)
+
+introduce(age=21, name="Sara")</pre>
+<h3>۳.۳ مقدار پیش‌فرض (Default Parameter)</h3>
+<p>اگر برای پارامتری مقدار پیش‌فرض تعریف کنیم، فراخواننده می‌تواند آن آرگومان را حذف کند.</p>
+<pre>def greet(name, message="Hello"):
+    print(f"{message}, {name}")
+
+greet("Sara")                 <span class="comment"># Hello, Sara</span>
+greet("Ali", "Good morning")  <span class="comment"># Good morning, Ali</span></pre>
+<div class="note"><b>قانون ترتیب:</b> پارامترهای بدون مقدار پیش‌فرض باید قبل از پارامترهای دارای مقدار پیش‌فرض بیایند. <code>def f(a=1, b):</code> خطای SyntaxError می‌دهد؛ اما <code>def f(a, b=1):</code> معتبر است.</div>
+<h3>۳.۴ Keyword-only و Positional-only</h3>
+<p>با علامت‌های <code>/</code> و <code>*</code> می‌توان تعیین کرد پارامترها چگونه قابل ارسال باشند.</p>
+<pre>def create_user(user_id, /, name, *, active=True):
+    print(user_id, name, active)
+
+create_user(10, "Sara", active=False)
+<span class="comment"># user_id must be positional</span>
+<span class="comment"># active must be keyword-only</span></pre>
+<table><tr><th>علامت</th><th>کاربرد</th></tr><tr><td><code>/</code></td><td>پارامترهای قبل از آن فقط موقعیتی‌اند (positional-only).</td></tr><tr><td><code>*</code></td><td>پارامترهای بعد از آن فقط کلیدواژه‌ای‌اند (keyword-only)، مگر اینکه در قالب <code>*args</code> باشد.</td></tr></table>
+<h3>۳.۵ ترتیب کلی پارامترها</h3>
+<pre>def f(pos_only, /, standard, *args, keyword_only, **kwargs):
+    pass</pre>
+<p class="small">این امضا همه‌ی شکل‌های اصلی پارامتر را کنار هم نشان می‌دهد؛ لازم نیست در توابع معمولی همیشه از همه‌ی آن‌ها استفاده کنی.</p>
+</section>
+
+<section class="section" id="return">
+<h2>۴) return، print و مقدار بازگشتی</h2>
+<p class="lead">این تفاوت، از مهم‌ترین مفاهیم توابع است.</p>
+<table><tr><th><code>print()</code></th><th><code>return</code></th></tr><tr><td>مقدار را برای انسان در خروجی نمایش می‌دهد.</td><td>مقدار را از تابع به کد فراخواننده تحویل می‌دهد.</td></tr><tr><td>به‌خودی‌خود نتیجه را برای استفاده‌ی بعدی ذخیره نمی‌کند.</td><td>می‌توان نتیجه را در متغیر ذخیره، مقایسه یا به تابع دیگری ارسال کرد.</td></tr><tr><td>تابع <code>print</code> خودش <code>None</code> برمی‌گرداند.</td><td>اجرای تابع را همان‌جا خاتمه می‌دهد.</td></tr></table>
+<pre>def add_print(a, b):
+    print(a + b)
+
+def add_return(a, b):
+    return a + b
+
+x = add_print(2, 3)   <span class="comment"># prints 5; x is None</span>
+y = add_return(2, 3)  <span class="comment"># y is 5</span>
+
+print(x)              <span class="comment"># None</span>
+print(y * 10)         <span class="comment"># 50</span></pre>
+<h3>اگر return ننویسیم چه می‌شود؟</h3>
+<p>پایتون به‌صورت خودکار <code>None</code> برمی‌گرداند. همین اتفاق وقتی رخ می‌دهد که فقط از <code>return</code> بدون مقدار استفاده کنیم.</p>
+<pre>def do_nothing():
+    pass
+
+def stop_early():
+    print("Starting")
+    return
+    print("This line never runs")
+
+print(do_nothing())  <span class="comment"># None</span></pre>
+<h3>بازگرداندن چند مقدار</h3>
+<p>در پایتون می‌توان چند مقدار را با کاما برگرداند. در واقع یک <b>tuple</b> ساخته می‌شود.</p>
+<pre>def calculate(a, b):
+    return a + b, a - b, a * b
+
+result = calculate(8, 3)
+print(result)             <span class="comment"># (11, 5, 24)</span>
+
+total, difference, product = calculate(8, 3)</pre>
+<div class="warning">هر دستوری بعد از <code>return</code> در همان مسیر اجرا نمی‌شود. <code>return</code> فقط مقدار نمی‌دهد؛ اجرای تابع را هم تمام می‌کند.</div>
+<h3>چند return در یک تابع</h3>
+<pre>def classify(number):
+    if number > 0:
+        return "positive"
+    elif number < 0:
+        return "negative"
+    return "zero"</pre>
+</section>
+
+<section class="section" id="args">
+<h2>۵) *args و **kwargs</h2>
+<p>وقتی تعداد آرگومان‌ها از قبل مشخص نیست، از این دو ابزار استفاده می‌کنیم.</p>
+<h3>۵.۱ <code>*args</code> — تعداد متغیر آرگومان‌های موقعیتی</h3>
+<p>آرگومان‌های موقعیتی اضافی داخل یک <b>tuple</b> جمع می‌شوند. نام <code>args</code> قراردادی است؛ ستاره مهم است.</p>
+<pre>def total(*args):
+    print(args)
+    return sum(args)
+
+print(total(2, 4, 6))       <span class="comment"># 12</span>
+print(total(10, 20))        <span class="comment"># 30</span></pre>
+<h3>۵.۲ <code>**kwargs</code> — تعداد متغیر آرگومان‌های کلیدواژه‌ای</h3>
+<p>آرگومان‌های کلیدواژه‌ای اضافی داخل یک <b>dictionary</b> جمع می‌شوند.</p>
+<pre>def show_profile(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+show_profile(name="Sara", age=21, city="Zanjan")</pre>
+<h3>۵.۳ ترکیب آن‌ها</h3>
+<pre>def report(title, *scores, status="active", **details):
+    print(title)
+    print(scores)    <span class="comment"># tuple</span>
+    print(status)
+    print(details)   <span class="comment"># dict</span>
+
+report("Python", 18, 20, 17, status="passed", level="basic")</pre>
+<h3>۵.۴ Unpacking با * و **</h3>
+<p>ستاره‌ها فقط برای تعریف تابع نیستند؛ هنگام فراخوانی هم می‌توانند یک مجموعه را باز کنند.</p>
+<pre>def add(a, b, c):
+    return a + b + c
+
+numbers = [2, 3, 4]
+print(add(*numbers))  <span class="comment"># equivalent to add(2, 3, 4)</span>
+
+def connect(host, port):
+    print(host, port)
+
+config = {"host": "localhost", "port": 5432}
+connect(**config)</pre>
+<div class="note">تفاوت را حفظ کن: در تعریف تابع، <code>*args</code> ورودی‌های اضافی را جمع می‌کند؛ در فراخوانی، <code>*iterable</code> یک iterable را باز می‌کند. برای <code>**</code> نیز همین منطق با آرگومان‌های کلیدواژه‌ای و mapping برقرار است.</div>
+</section>
+
+<section class="section" id="scope">
+<h2>۶) Scope و فضای نام (Namespace)</h2>
+<p class="lead">Scope مشخص می‌کند یک نام (variable/function name) از کدام بخش برنامه قابل دسترسی است. Namespace فضایی است که نام‌ها را به اشیا متصل می‌کند.</p>
+<h3>۶.۱ Local Scope</h3>
+<p>نامی که داخل تابع تعریف می‌شود، معمولاً local همان تابع است.</p>
+<pre>def calculate():
+    result = 100  <span class="comment"># local variable</span>
+    print(result)
+
+calculate()
+<span class="comment"># print(result)  -> NameError</span></pre>
+<h3>۶.۲ Global Scope</h3>
+<p>نامی که در سطح اصلی ماژول تعریف شده، global آن ماژول است و از داخل توابع قابل خواندن است.</p>
+<pre>tax_rate = 0.09
+
+def final_price(price):
+    return price * (1 + tax_rate)
+
+print(final_price(100))</pre>
+<h3>۶.۳ قانون LEGB</h3>
+<p>هنگام جست‌وجوی یک نام، پایتون این ترتیب را بررسی می‌کند:</p>
+<div class="grid">
+ <div class="mini"><strong>L — Local</strong>نام‌های محلی تابع فعلی</div>
+ <div class="mini"><strong>E — Enclosing</strong>فضای تابع بیرونی در توابع تو‌در‌تو</div>
+ <div class="mini"><strong>G — Global</strong>فضای سطح ماژول</div>
+ <div class="mini"><strong>B — Built-in</strong>نام‌های داخلی پایتون مثل <code>len</code> و <code>sum</code></div>
+</div>
+<pre>message = "global"
+
+def outer():
+    message = "enclosing"
+
+    def inner():
+        message = "local"
+        print(message)
+
+    inner()
+
+outer()  <span class="comment"># local</span></pre>
+<p>اگر نام در Local پیدا نشود، پایتون به Enclosing، سپس Global و در نهایت Built-in می‌رود. اگر هیچ‌جا پیدا نشود، <code>NameError</code> رخ می‌دهد.</p>
+<h3>۶.۴ Shadowing — سایه انداختن روی نام</h3>
+<pre>name = "Global"
+
+def show():
+    name = "Local"
+    print(name)
+
+show()          <span class="comment"># Local</span>
+print(name)     <span class="comment"># Global</span></pre>
+<p>تعریف نام محلی با همان نام global، مقدار global را تغییر نمی‌دهد؛ فقط هنگام جست‌وجو در آن تابع، نام محلی زودتر پیدا می‌شود.</p>
+<div class="warning">متغیر local بعد از پایان فراخوانی تابع معمولاً از دسترس مستقیم خارج می‌شود. البته اگر یک closure آن را نگه دارد، ممکن است عمرش ادامه پیدا کند.</div>
+</section>
+
+<section class="section" id="global">
+<h2>۷) دستورهای global و nonlocal</h2>
+<h3>۷.۱ چرا گاهی UnboundLocalError می‌گیریم؟</h3>
+<p>اگر داخل تابع به نامی مقداردهی کنیم، پایتون آن نام را در همان تابع local در نظر می‌گیرد؛ حتی اگر بیرون تابع متغیر global با همان نام وجود داشته باشد.</p>
+<pre>count = 10
+
+def increase():
+    count = count + 1  <span class="comment"># UnboundLocalError</span>
+
+increase()</pre>
+<p>پایتون در خط بالا می‌بیند که <code>count</code> در تابع مقداردهی شده، پس آن را local تشخیص می‌دهد؛ اما قبل از مقداردهی، تلاش می‌کنیم مقدارش را بخوانیم.</p>
+<h3>۷.۲ global</h3>
+<p>با <code>global</code> اعلام می‌کنیم که assignment روی نام global ماژول انجام شود.</p>
+<pre>count = 10
+
+def increase():
+    global count
+    count += 1
+
+increase()
+print(count)  <span class="comment"># 11</span></pre>
+<div class="warning">استفاده‌ی زیاد از <code>global</code> معمولاً طراحی را شکننده می‌کند؛ وابستگی پنهان می‌سازد و تست‌کردن تابع را سخت‌تر می‌کند. اغلب بهتر است مقدار را ورودی بگیریم و نتیجه را return کنیم.</div>
+<h3>۷.۳ nonlocal</h3>
+<p><code>nonlocal</code> برای تغییر متغیری است که در نزدیک‌ترین تابع بیرونی (Enclosing function) تعریف شده؛ نه global و نه local تابع فعلی.</p>
+<pre>def outer():
+    score = 0
+
+    def inner():
+        nonlocal score
+        score += 5
+
+    inner()
+    return score
+
+print(outer())  <span class="comment"># 5</span></pre>
+<table><tr><th>دستور</th><th>به کدام نام اشاره می‌کند؟</th><th>کاربرد</th></tr><tr><td><code>global x</code></td><td>نام در سطح ماژول</td><td>assignment روی متغیر global</td></tr><tr><td><code>nonlocal x</code></td><td>نام در تابع بیرونیِ غیر global</td><td>assignment روی متغیر enclosing</td></tr></table>
+<p class="small">اگر نام مناسبی برای <code>nonlocal</code> در تابع بیرونی وجود نداشته باشد، پایتون <code>SyntaxError</code> می‌دهد.</p>
+</section>
+
+<section class="section" id="nested">
+<h2>۸) توابع تو‌در‌تو و Closure</h2>
+<h3>۸.۱ Nested Function</h3>
+<p>تابعی که داخل تابع دیگری تعریف شود، nested function نام دارد. معمولاً برای پنهان‌کردن جزئیات پیاده‌سازی یا ساخت رفتارهای قابل‌تنظیم استفاده می‌شود.</p>
+<pre>def calculate_discount(price):
+    def apply_discount():
+        return price * 0.8
+
+    return apply_discount()
+
+print(calculate_discount(100))  <span class="comment"># 80.0</span></pre>
+<h3>۸.۲ Closure چیست؟</h3>
+<p>اگر تابع داخلی به متغیرهای تابع بیرونی وابسته باشد و خود تابع داخلی از تابع بیرونی برگردانده شود، تابع برگشتی می‌تواند آن متغیرها را حتی پس از پایان اجرای تابع بیرونی نگه دارد. به این رفتار closure می‌گوییم.</p>
+<pre>def multiplier(factor):
+    def multiply(number):
+        return number * factor
+    return multiply
+
+double = multiplier(2)
+triple = multiplier(3)
+
+print(double(10))  <span class="comment"># 20</span>
+print(triple(10))  <span class="comment"># 30</span></pre>
+<div class="definition"><b>تصویر ذهنی:</b> تابع <code>multiply</code> فقط کد نیست؛ به همراه ارجاعی به محیطی که <code>factor</code> در آن تعریف شده، برگردانده می‌شود. برای همین هنوز می‌داند ضریب چند است.</div>
+<h3>۸.۳ کاربرد Closure</h3>
+<ul><li>ساخت تابع‌های قابل پیکربندی</li><li>نگهداری state محدود و خصوصی</li><li>پیاده‌سازی decoratorها</li><li>ساخت callbackهایی که به تنظیمات اولیه نیاز دارند</li></ul>
+</section>
+
+<section class="section" id="lambda">
+<h2>۹) Lambda Function</h2>
+<p>تابع lambda یک تابع کوچک و بی‌نام است که با کلمه‌ی <code>lambda</code> ساخته می‌شود. بدنه‌ی آن فقط یک expression است و نتیجه‌ی همان expression به‌صورت ضمنی برگردانده می‌شود.</p>
+<pre>square = lambda x: x ** 2
+print(square(5))  <span class="comment"># 25</span>
+
+add = lambda a, b: a + b
+print(add(3, 4))  <span class="comment"># 7</span></pre>
+<table><tr><th>def</th><th>lambda</th></tr><tr><td>نام‌گذاری طبیعی و مناسب منطق چندخطی</td><td>بی‌نام و مناسب expression کوتاه</td></tr><tr><td>می‌تواند چند دستور داشته باشد.</td><td>فقط یک expression دارد.</td></tr><tr><td>می‌تواند docstring داشته باشد.</td><td>ساختار docstring معمول ندارد.</td></tr></table>
+<h3>کاربرد رایج همراه sorted و key</h3>
+<pre>students = [
+    {"name": "Sara", "score": 18},
+    {"name": "Ali", "score": 15},
+    {"name": "Mina", "score": 20}
+]
+
+ordered = sorted(students, key=lambda student: student["score"])
+print(ordered)</pre>
+<div class="tip">اگر lambda آن‌قدر پیچیده شد که برای فهمیدنش باید مکث کنی، احتمالاً یک تابع <code>def</code> با نام خوب انتخاب بهتری است.</div>
+</section>
+
+<section class="section" id="advanced">
+<h2>۱۰) نکات حرفه‌ای و جزئیات مهم</h2>
+<h3>۱۰.۱ توابع در پایتون First-class Objects هستند</h3>
+<p>تابع در پایتون یک object است؛ می‌توان آن را در متغیر ذخیره کرد، به تابع دیگری داد، از تابع برگرداند و داخل ساختار داده نگهداری کرد.</p>
+<pre>def greet(name):
+    return f"Hello {name}"
+
+say_hello = greet
+print(say_hello("Sara"))
+
+def run_function(func, value):
+    return func(value)
+
+print(run_function(greet, "Ali"))</pre>
+<h3>۱۰.۲ Docstring و مستندسازی</h3>
+<p>رشته‌ای که اولین دستور بدنه‌ی تابع باشد، docstring است. برای توضیح هدف، ورودی‌ها، خروجی و خطاهای احتمالی استفاده می‌شود.</p>
+<pre>def calculate_area(width, height):
+    """Return the area of a rectangle.
+
+    Args:
+        width (float): Rectangle width.
+        height (float): Rectangle height.
+
+    Returns:
+        float: Rectangle area.
+    """
+    return width * height
+
+print(calculate_area.__doc__)
+help(calculate_area)</pre>
+<h3>۱۰.۳ Type Hints / Annotations</h3>
+<p>Type hint نوع مورد انتظار ورودی و خروجی را مستند می‌کند و به ابزارهای تحلیل کد کمک می‌کند؛ اما به‌طور پیش‌فرض نوع را در زمان اجرا enforce نمی‌کند.</p>
+<pre>def average(numbers: list[float]) -> float:
+    return sum(numbers) / len(numbers)</pre>
+<h3>۱۰.۴ توابع بازگشتی (Recursion)</h3>
+<p>تابع بازگشتی تابعی است که خودش را فراخوانی می‌کند. باید شرط توقف (base case) داشته باشد؛ وگرنه فراخوانی‌ها ادامه پیدا می‌کنند تا به محدودیت عمق بازگشت برسند.</p>
+<pre>def factorial(n):
+    if n < 0:
+        raise ValueError("n must be non-negative")
+    if n <= 1:              <span class="comment"># base case</span>
+        return 1
+    return n * factorial(n - 1)
+
+print(factorial(5))  <span class="comment"># 120</span></pre>
+<div class="warning">در پایتون recursion همیشه بهترین انتخاب نیست. برای پیمایش‌های عمیق، حلقه معمولاً امن‌تر است؛ چون محدودیت recursion وجود دارد و پایتون به‌طور پیش‌فرض tail-call optimization انجام نمی‌دهد.</div>
+<h3>۱۰.۵ توابع داخلی مهم مرتبط</h3>
+<table><tr><th>تابع / ابزار</th><th>کاربرد</th><th>مثال</th></tr>
+<tr><td><code>help(obj)</code></td><td>نمایش راهنمای شیء یا تابع</td><td><code>help(sorted)</code></td></tr>
+<tr><td><code>callable(obj)</code></td><td>بررسی اینکه شیء قابل فراخوانی است یا نه</td><td><code>callable(print)</code></td></tr>
+<tr><td><code>id(obj)</code></td><td>شناسه‌ی هویت شیء در طول عمر آن</td><td><code>id(greet)</code></td></tr>
+<tr><td><code>type(obj)</code></td><td>نوع شیء</td><td><code>type(greet)</code></td></tr>
+<tr><td><code>globals()</code></td><td>دیکشنری namespace سراسری ماژول</td><td><code>globals().keys()</code></td></tr>
+<tr><td><code>locals()</code></td><td>نمایی از namespace محلی در نقطه‌ی اجرا</td><td><code>locals()</code></td></tr>
+<tr><td><code>vars(obj)</code></td><td>دیکشنری ویژگی‌های شیء، در صورت پشتیبانی</td><td><code>vars(some_object)</code></td></tr>
+</table>
+<h3>۱۰.۶ ویژگی‌های قابل‌بررسی تابع</h3>
+<pre>def greet(name: str = "Guest") -> str:
+    """Create a greeting."""
+    return f"Hello, {name}"
+
+print(greet.__name__)         <span class="comment"># greet</span>
+print(greet.__doc__)          <span class="comment"># Create a greeting.</span>
+print(greet.__defaults__)     <span class="comment"># ('Guest',)</span>
+print(greet.__annotations__)  <span class="comment"># {'name': str, 'return': str}</span></pre>
+<h3>۱۰.۷ Function در برابر Method</h3>
+<p>Function به‌طور مستقل تعریف می‌شود. Method تابعی است که به یک کلاس یا نمونه‌ی کلاس وابسته است. متد نمونه معمولاً پارامتر اولی به نام <code>self</code> دارد که نمونه‌ی فعلی را دریافت می‌کند.</p>
+<pre>def standalone():
+    return "I am a function"
+
+class Student:
+    def study(self):
+        return "I am an instance method"
+
+s = Student()
+print(standalone())
+print(s.study())</pre>
+<h3>۱۰.۸ Decorator — پیش‌نمایش</h3>
+<p>Decorator تابعی است که تابع دیگری را می‌گیرد و معمولاً نسخه‌ای با رفتار اضافه‌شده برمی‌گرداند. برای فهم عمیق decoratorها باید closure و first-class functions را خوب بلد باشی.</p>
+<pre>def announce(func):
+    def wrapper():
+        print("Starting...")
+        result = func()
+        print("Finished.")
+        return result
+    return wrapper
+
+@announce
+def task():
+    print("Working")
+
+task()</pre>
+</section>
+
+<section class="section" id="pitfalls">
+<h2>۱۱) دام‌ها و اشتباهات رایج</h2>
+<h3>۱۱.۱ مقدار پیش‌فرض mutable</h3>
+<p>مقادیر پیش‌فرض فقط یک‌بار، هنگام تعریف تابع ساخته می‌شوند؛ نه در هر فراخوانی. پس استفاده از list یا dict قابل‌تغییر می‌تواند state ناخواسته ایجاد کند.</p>
+<pre><span class="comment"># Bad</span>
+def add_item(item, items=[]):
+    items.append(item)
+    return items
+
+<span class="comment"># Good</span>
+def add_item(item, items=None):
+    if items is None:
+        items = []
+    items.append(item)
+    return items</pre>
+<h3>۱۱.۲ تفاوت تغییر شیء و انتساب مجدد</h3>
+<pre>values = [1, 2]
+
+def modify(items):
+    items.append(3)       <span class="comment"># mutates the same list</span>
+
+modify(values)
+print(values)             <span class="comment"># [1, 2, 3]</span>
+
+def reassign(items):
+    items = [9, 9]        <span class="comment"># local rebinding</span>
+
+reassign(values)
+print(values)             <span class="comment"># [1, 2, 3]</span></pre>
+<p>پایتون از مدل ارسال آرگومان بر پایه‌ی <b>object reference / object sharing</b> استفاده می‌کند: تابع ارجاع به همان شیء را دریافت می‌کند. mutation شیء قابل‌تغییر از بیرون دیده می‌شود؛ اما انتساب مجدد پارامتر، نام بیرونی را عوض نمی‌کند.</p>
+<h3>۱۱.۳ تفاوت NameError و UnboundLocalError</h3>
+<ul><li><code>NameError</code>: نام در scopeهای قابل‌جست‌وجو پیدا نشده است.</li><li><code>UnboundLocalError</code>: نام local تشخیص داده شده، اما پیش از مقداردهی از آن استفاده شده است؛ زیرکلاس <code>NameError</code> است.</li></ul>
+<h3>۱۱.۴ فراخوانی تابع را با ارجاع به تابع اشتباه نگیر</h3>
+<pre>def greet():
+    print("Hello")
+
+x = greet      <span class="comment"># function object</span>
+y = greet()    <span class="comment"># function call; y gets return value (None)</span>
+
+x()
+print(y)</pre>
+<h3>۱۱.۵ نام‌های built-in را بازنویسی نکن</h3>
+<pre><span class="comment"># Avoid this</span>
+list = [1, 2, 3]
+<span class="comment"># Now list(...) no longer refers to built-in list</span></pre>
+</section>
+
+<section class="section" id="summary">
+<h2>۱۲) جمع‌بندی سریع و چک‌لیست تسلط</h2>
+<table><tr><th>مفهوم</th><th>آنچه باید به خاطر بسپاری</th></tr>
+<tr><td><code>def</code></td><td>تعریف تابع؛ بدنه با فراخوانی اجرا می‌شود.</td></tr>
+<tr><td>Parameter / Argument</td><td>پارامتر در تعریف؛ آرگومان در فراخوانی.</td></tr>
+<tr><td><code>return</code></td><td>تحویل نتیجه و پایان اجرای تابع؛ بدون آن خروجی <code>None</code> است.</td></tr>
+<tr><td><code>*args</code></td><td>جمع‌آوری آرگومان‌های موقعیتی اضافی در tuple.</td></tr>
+<tr><td><code>**kwargs</code></td><td>جمع‌آوری آرگومان‌های کلیدواژه‌ای اضافی در dict.</td></tr>
+<tr><td>LEGB</td><td>Local → Enclosing → Global → Built-in.</td></tr>
+<tr><td><code>global</code></td><td>ارجاع assignment به نام global ماژول.</td></tr>
+<tr><td><code>nonlocal</code></td><td>ارجاع assignment به نام تابع enclosing.</td></tr>
+<tr><td>Closure</td><td>تابع داخلی همراه با دسترسی حفظ‌شده به محیط بیرونی.</td></tr>
+<tr><td>Lambda</td><td>تابع بی‌نام با یک expression.</td></tr>
+<tr><td>Mutable default</td><td>پیش‌فرض mutable را با <code>None</code> و مقداردهی داخل تابع جایگزین کن.</td></tr></table>
+<div class="tip"><b>قبل از رفتن به مبحث بعدی، باید بتوانی:</b><br>
+□ تابعی با چند نوع پارامتر طراحی کنی.<br>
+□ فرق print و return را با مثال توضیح بدهی.<br>
+□ *args و **kwargs را هم در تعریف و هم در فراخوانی به‌کار ببری.<br>
+□ خروجی کدهای دارای scopeهای تو‌در‌تو را با LEGB پیش‌بینی کنی.<br>
+□ فرق global و nonlocal را تشخیص بدهی.<br>
+□ علت mutable default argument و UnboundLocalError را توضیح بدهی.</div>
+</section>
+
+<section class="section" id="quiz">
+<h2>۱۳) خودآزمایی مفهومی</h2>
+<p class="muted">قبل از باز کردن پاسخ، خودت خروجی را پیش‌بینی کن. هدف حفظ‌کردن نیست؛ باید بتوانی رفتار مفسر را توضیح بدهی.</p>
+<div class="quiz"><b>سؤال ۱ — خروجی چیست؟</b><pre>def f(x):
+    x = x + 2
+    return x
+
+a = 5
+print(f(a), a)</pre><button onclick="reveal('a1')">نمایش پاسخ</button><div class="answer" id="a1">7 5 — مقدار عددی immutable است؛ انتساب مجدد x نام محلی را تغییر می‌دهد، نه a را.</div></div>
+<div class="quiz"><b>سؤال ۲ — خروجی چیست؟</b><pre>def outer():
+    x = "A"
+    def inner():
+        print(x)
+    inner()
+
+outer()</pre><button onclick="reveal('a2')">نمایش پاسخ</button><div class="answer" id="a2">A — نام در Local تابع inner نیست، پس در Enclosing پیدا می‌شود.</div></div>
+<div class="quiz"><b>سؤال ۳ — مشکل کجاست؟</b><pre>total = 10
+def update():
+    total += 5
+update()</pre><button onclick="reveal('a3')">نمایش پاسخ</button><div class="answer" id="a3">UnboundLocalError — چون assignment باعث می‌شود total در update محلی تشخیص داده شود. برای تغییر global باید global total نوشت؛ طراحی بهتر معمولاً return مقدار جدید است.</div></div>
+<div class="quiz"><b>سؤال ۴ — خروجی چیست؟</b><pre>def collect(value, bucket=[]):
+    bucket.append(value)
+    return bucket
+
+print(collect(1))
+print(collect(2))</pre><button onclick="reveal('a4')">نمایش پاسخ</button><div class="answer" id="a4">[1] و سپس [1, 2] — لیست پیش‌فرض فقط یک‌بار ساخته شده و بین فراخوانی‌ها مشترک مانده است.</div></div>
+<div class="quiz"><b>سؤال ۵ — این تابع چه چیزی برمی‌گرداند؟</b><pre>def stats(a, b):
+    return a + b, a * b
+
+result = stats(3, 4)
+print(type(result), result)</pre><button onclick="reveal('a5')">نمایش پاسخ</button><div class="answer" id="a5">نوع tuple و مقدار (7, 12) — چند مقدار جداگانه برنمی‌گردند؛ یک tuple برگردانده می‌شود.</div></div>
+</section>
+<div class="footer">PYTHON MASTERCLASS • FUNCTIONS & SCOPE<br>یادگیری واقعی یعنی بتوانی کد را پیش‌بینی کنی، توضیح بدهی و از صفر بنویسی.</div>
+</main>
+</div>
+</div>
+<script>
+function reveal(id){const el=document.getElementById(id);el.style.display=el.style.display==="block"?"none":"block";}
+</script>
+</body>
+</html>
